@@ -10,7 +10,24 @@ const AuthCallbackPage = () => {
   const searchParams = useSearchParams();
   const origin = searchParams.get("origin");
 
-  trpc.authCallback.useQuery();
+  // not compatible with react query v5
+  trpc.authCallback.useQuery(undefined, {
+    onSuccess: ({ success }) => {
+      if (success) {
+        // user is synced to db
+        router.push(origin ? `/${origin}` : "/dashboard");
+      }
+    },
+
+    onError: (err) => {
+      if (err.data?.code === "UNAUTHORIZED") {
+        router.push("/sign-in");
+      }
+    },
+
+    retry: true,
+    retryDelay: 500,
+  });
 
   return (
     <div className='w-full flex justify-center mt-24'>
