@@ -6,8 +6,11 @@ import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 export const appRouter = router({
   authCallback: publicProcedure.query(async () => {
     const { getUser } = getKindeServerSession();
+
+    // accessing the logged in user
     const user = getUser();
 
+    // guard clause
     if (!user.id || !user.email) throw new TRPCError({ code: "UNAUTHORIZED" });
 
     // check if the user already exists in db
