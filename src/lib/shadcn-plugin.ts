@@ -19,8 +19,8 @@ const shadcnPlugin = plugin(
         "--muted-foreground": "215.4 16.3% 46.9%",
         "--accent": "210 40% 96.1%",
         "--accent-foreground": "222.2 47.4% 11.2%",
-        "--destructive": "0 84.2% 60.2%",
-        "--destructive-foreground": "210 40% 98%",
+        "--destructive": "0 86% 97%", // customized
+        "--destructive-foreground": "0 74% 42%", // customized
         "--border": "214.3 31.8% 91.4%",
         "--input": "214.3 31.8% 91.4%",
         "--ring": "221.2 83.2% 53.3%",
