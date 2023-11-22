@@ -1,7 +1,7 @@
 import { db } from "@/db";
 import { notFound, redirect } from "next/navigation";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
-import { PdfRenderer } from "@/components";
+import { ChatWrapper, PdfRenderer } from "@/components";
 
 interface ChatPageProps {
   params: {
@@ -39,7 +39,7 @@ const ChatPage = async ({ params }: ChatPageProps) => {
         </div>
 
         <div className='shrink-0 flex-[0.75] border-t border-gray-200 lg:w-96 lg:border-l lg:border-t-0'>
-          {/* chat wrapper component */}
+          <ChatWrapper />
         </div>
       </div>
     </div>
