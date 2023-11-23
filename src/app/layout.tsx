@@ -2,6 +2,7 @@ import "./globals.css";
 import { Inter } from "next/font/google";
 import { cn, constructMetadata } from "@/lib/utils";
 import { Navbar, Providers } from "@/components";
+import { Toaster } from "@/components/ui";
 
 import "react-loading-skeleton/dist/skeleton.css";
 
@@ -29,6 +30,7 @@ export default function RootLayout({
         <Providers>
           <Navbar />
           {children}
+          <Toaster />
         </Providers>
       </body>
     </html>
