@@ -32,6 +32,7 @@
     "react-dropzone": "^14.2.3",
     "react-loading-skeleton": "^3.3.1",
     "react-pdf": "^7.5.1",
+    "react-resize-detector": "^9.1.0",
     "tailwind-merge": "^2.0.0",
     "tailwind-scrollbar": "^3.0.5",
     "tailwindcss-animate": "^1.0.7",
