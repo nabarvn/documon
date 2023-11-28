@@ -4,6 +4,7 @@ import { cn, constructMetadata } from "@/lib/utils";
 import { Navbar, Providers } from "@/components";
 import { Toaster } from "@/components/ui";
 
+import "simplebar-react/dist/simplebar.min.css";
 import "react-loading-skeleton/dist/skeleton.css";
 
 const inter = Inter({ subsets: ["latin"] });
