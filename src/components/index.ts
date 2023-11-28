@@ -5,3 +5,4 @@ export { default as Dashboard } from "./Dashboard";
 export { default as UploadButton } from "./UploadButton";
 export { default as PdfRenderer } from "./PdfRenderer";
 export { default as ChatWrapper } from "./ChatWrapper";
+export { default as PdfFullscreen } from "./PdfFullscreen";
