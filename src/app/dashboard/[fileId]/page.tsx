@@ -1,7 +1,8 @@
 import { db } from "@/db";
 import { notFound, redirect } from "next/navigation";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
-import { ChatWrapper, PdfRenderer } from "@/components";
+import { PdfRenderer } from "@/components";
+import { ChatWrapper } from "@/components/chat";
 
 interface ChatPageProps {
   params: {
