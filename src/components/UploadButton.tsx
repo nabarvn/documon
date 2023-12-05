@@ -4,7 +4,7 @@ import { useState } from "react";
 import Dropzone from "react-dropzone";
 import { trpc } from "@/app/_trpc/client";
 import { useRouter } from "next/navigation";
-import { toast } from "@/components/ui/UseToast";
+import { useToast } from "@/components/ui/UseToast";
 import { Button, Progress } from "@/components/ui";
 import { useUploadThing } from "@/lib/uploadthing";
 import { Cloud, File, Loader2 } from "lucide-react";
@@ -12,6 +12,7 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/Dialog";
 
 const UploadDropzone = () => {
   const router = useRouter();
+  const { toast } = useToast();
 
   const [isUploading, setIsUploading] = useState<boolean>(false);
   const [uploadProgress, setUploadProgress] = useState<number>(0);
