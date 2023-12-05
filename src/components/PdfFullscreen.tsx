@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import SimpleBar from "simplebar-react";
 import { Button } from "@/components/ui";
