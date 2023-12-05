@@ -3,7 +3,7 @@
 import { useState } from "react";
 import SimpleBar from "simplebar-react";
 import { Document, Page, pdfjs } from "react-pdf";
-import { toast } from "@/components/ui/UseToast";
+import { useToast } from "@/components/ui/UseToast";
 
 import {
   ChevronDown,
@@ -40,6 +40,7 @@ interface PdfRendererProps {
 }
 
 const PdfRenderer = ({ url }: PdfRendererProps) => {
+  const { toast } = useToast();
   const { width, ref } = useResizeDetector();
 
   const [numPages, setNumPages] = useState<number>();
