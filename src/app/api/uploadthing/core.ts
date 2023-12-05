@@ -1,4 +1,8 @@
 import { db } from "@/db";
+import { pinecone } from "@/lib/pinecone";
+import { PDFLoader } from "langchain/document_loaders/fs/pdf";
+import { OpenAIEmbeddings } from "langchain/embeddings/openai";
+import { PineconeStore } from "langchain/vectorstores/pinecone";
 import { createUploadthing, type FileRouter } from "uploadthing/next";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 
@@ -30,6 +34,57 @@ export const ourFileRouter = {
           uploadStatus: "PROCESSING",
         },
       });
+
+      try {
+        // to access the PDF file in memory
+        const response = await fetch(
+          `https://uploadthing-prod.s3.us-west-2.amazonaws.com/${file.key}`
+        );
+
+        // we need the PDF as blob to be able to index it
+        const blob = await response.blob();
+
+        // loading the PDF into memory
+        const loader = new PDFLoader(blob);
+
+        // extracting the page-level text of the PDF
+        const pageLevelDocs = await loader.load();
+
+        // each document in the array is a page
+        const pagesAmt = pageLevelDocs.length;
+
+        // TODO: business logic for subscription plan
+
+        // vectorize and index entire document
+        const pineconeIndex = pinecone.Index("documon");
+
+        const embeddings = new OpenAIEmbeddings({
+          openAIApiKey: process.env.OPENAI_API_KEY,
+        });
+
+        await PineconeStore.fromDocuments(pageLevelDocs, embeddings, {
+          pineconeIndex,
+          namespace: createdFile.id,
+        });
+
+        await db.file.update({
+          data: {
+            uploadStatus: "SUCCESS",
+          },
+          where: {
+            id: createdFile.id,
+          },
+        });
+      } catch (error) {
+        await db.file.update({
+          data: {
+            uploadStatus: "FAILED",
+          },
+          where: {
+            id: createdFile.id,
+          },
+        });
+      }
     }),
 } satisfies FileRouter;
 
