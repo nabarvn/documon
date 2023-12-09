@@ -2,6 +2,7 @@ import { trpc } from "@/app/_trpc/client";
 import { useMutation } from "@tanstack/react-query";
 import { INFINITE_QUERY_LIMIT } from "@/config/infinite-query";
 import { ReactNode, createContext, useRef, useState } from "react";
+import { useToast } from "@/components/ui/UseToast";
 
 type StreamResponse = {
   addMessage: () => void;
@@ -24,6 +25,8 @@ interface ChatContextProps {
 }
 
 export const ChatContextProvider = ({ fileId, children }: ChatContextProps) => {
+  const { toast } = useToast();
+
   const [message, setMessage] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -106,12 +109,121 @@ export const ChatContextProvider = ({ fileId, children }: ChatContextProps) => {
       setIsLoading(true);
 
       return {
+        // can be accessed as `context`
         previousMessages:
           previousMessages?.pages.flatMap((page) => page.messages) ?? [],
       };
     },
 
-    // TODO: implement rest of the required methods
+    onSuccess: async (stream) => {
+      setIsLoading(false);
+
+      if (!stream) {
+        return toast({
+          title: "There was a problem sending this message",
+          description: "Please refresh this page and try again.",
+          variant: "destructive",
+        });
+      }
+
+      // prep for reading the stream content
+      const reader = stream.getReader();
+      const decoder = new TextDecoder();
+
+      let done = false;
+
+      // accumulated response
+      let accResponse = "";
+
+      // read the stream in real-time
+      while (!done) {
+        const { value, done: doneReading } = await reader.read();
+        done = doneReading;
+        const chunkValue = decoder.decode(value);
+
+        accResponse += chunkValue;
+
+        // append chunk to the actual message
+        utils.getFileMessages.setInfiniteData(
+          { fileId, limit: INFINITE_QUERY_LIMIT },
+          // accessing old data in the callback fn
+          (old) => {
+            if (!old) {
+              return {
+                // these properties are required because React Query handles infinite query utilizing them
+                // we have to comply with the expected object structure
+                pages: [],
+                pageParams: [],
+              };
+            }
+
+            // check if the last message is an AI response
+            let isAiResponseCreated = old.pages.some((page) =>
+              page.messages.some((message) => message.id === "ai-response")
+            );
+
+            let updatedPages = old.pages.map((page) => {
+              // check if the concerned page is first one in array (last in this case as we are displaying them in reverse)
+              if (page === old.pages[0]) {
+                let updatedMessages;
+
+                if (!isAiResponseCreated) {
+                  // not an AI response - create a new message for incoming chunks
+                  updatedMessages = [
+                    {
+                      id: "ai-response",
+                      text: accResponse,
+                      isUserMessage: false,
+                      createdAt: new Date().toISOString(),
+                    },
+                    ...page.messages,
+                  ];
+                } else {
+                  // AI response - add chunks to the existing message instead of creating a new one
+                  updatedMessages = page.messages.map((message) => {
+                    if (message.id === "ai-response") {
+                      return {
+                        ...message,
+                        text: accResponse,
+                      };
+                    }
+
+                    return message;
+                  });
+                }
+
+                return {
+                  ...page,
+                  messages: updatedMessages,
+                };
+              }
+
+              // return all the other pages as they were
+              return page;
+            });
+
+            return { ...old, pages: updatedPages };
+          }
+        );
+      }
+    },
+
+    onError: (_, __, context) => {
+      // pull out the optimistically updated message from chat window and put it back into the textbox
+      setMessage(backupMessage.current);
+
+      utils.getFileMessages.setData(
+        { fileId },
+        { messages: context?.previousMessages ?? [] }
+      );
+    },
+
+    onSettled: async () => {
+      setIsLoading(false);
+
+      // successful or not - refresh data
+      await utils.getFileMessages.invalidate({ fileId });
+    },
   });
 
   // whatever is passed here can be accessed in `mutationFn` and `onMutate` methods
