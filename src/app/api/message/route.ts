@@ -120,5 +120,6 @@ export const POST = async (req: NextRequest) => {
     },
   });
 
+  // accessible in the `onSuccess` method
   return new StreamingTextResponse(stream);
 };
