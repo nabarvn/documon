@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { MaxWidthWrapper } from "@/components";
 import { buttonVariants } from "@/components/ui/Button";
+import { MaxWidthWrapper, UpgradeButton } from "@/components";
 
 import {
   Tooltip,
@@ -197,7 +197,7 @@ const PricingPage = () => {
                         <ArrowRight className='h-5 w-5 ml-1.5' />
                       </Link>
                     ) : user ? (
-                      <>{/* TODO: upgrade button goes here */}</>
+                      <UpgradeButton />
                     ) : (
                       <Link
                         href='/sign-in'
