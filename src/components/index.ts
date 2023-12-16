@@ -7,3 +7,4 @@ export { default as PdfRenderer } from "./PdfRenderer";
 export { default as PdfFullscreen } from "./PdfFullscreen";
 export { default as UpgradeButton } from "./UpgradeButton";
 export { default as MaxWidthWrapper } from "./MaxWidthWrapper";
+export { default as BillingForm } from "./BillingForm";
