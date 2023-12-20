@@ -7,3 +7,4 @@ export { Input } from "./Input";
 export { DropdownMenu } from "./DropdownMenu";
 export { Textarea } from "./Textarea";
 export { Card } from "./Card";
+export { Avatar } from "./Avatar";
