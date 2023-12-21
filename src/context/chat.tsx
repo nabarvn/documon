@@ -67,7 +67,7 @@ export const ChatContextProvider = ({ fileId, children }: ChatContextProps) => {
 
       // step 3: optimistically insert the new value right away
       utils.getFileMessages.setInfiniteData(
-        { fileId, limit: INFINITE_QUERY_LIMIT },
+        { fileId, limit: "10" },
         // accessing old data in the callback fn
         (old) => {
           if (!old) {
@@ -145,7 +145,7 @@ export const ChatContextProvider = ({ fileId, children }: ChatContextProps) => {
 
         // append chunk to the actual message
         utils.getFileMessages.setInfiniteData(
-          { fileId, limit: INFINITE_QUERY_LIMIT },
+          { fileId, limit: "10" },
           // accessing old data in the callback fn
           (old) => {
             if (!old) {
