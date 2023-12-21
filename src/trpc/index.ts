@@ -87,11 +87,13 @@ export const appRouter = router({
   getUserFiles: privateProcedure.query(async ({ ctx }) => {
     const { userId } = ctx;
 
-    return await db.file.findMany({
+    const files = await db.file.findMany({
       where: {
         userId,
       },
     });
+
+    return files;
   }),
 
   getFile: privateProcedure
@@ -130,7 +132,7 @@ export const appRouter = router({
     .input(
       z.object({
         fileId: z.string(),
-        limit: z.number().min(1).max(100).nullish(),
+        limit: z.enum(["10", "20", "all"]).nullish(),
         cursor: z.string().nullish(),
       })
     )
@@ -150,7 +152,7 @@ export const appRouter = router({
 
       // logic for infinite query
       const messages = await db.message.findMany({
-        take: limit + 1,
+        take: limit === "all" ? undefined : Number(limit) + 1,
         where: {
           fileId,
         },
@@ -168,7 +170,7 @@ export const appRouter = router({
 
       let nextCursor: typeof cursor | undefined = undefined;
 
-      if (messages.length > limit) {
+      if (limit !== "all" && messages.length > Number(limit)) {
         const nextItem = messages.pop();
         nextCursor = nextItem?.id;
       }
