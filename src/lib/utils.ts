@@ -17,7 +17,7 @@ export function constructMetadata({
   description = "Documon is an open-source software to make chatting with your PDF files easy.",
   image = "/thumbnail.png",
   icons = "/favicon.ico",
-  noIndex = false,
+  noIndex = false, // allow search engine bots to crawl and index the website
 }: {
   title?: string;
   description?: string;
