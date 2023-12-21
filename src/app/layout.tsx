@@ -24,7 +24,7 @@ export default function RootLayout({
     <html lang='en' className='light'>
       <body
         className={cn(
-          "min-h-screen font-sans antialiased grainy",
+          "min-h-screen font-sans antialiased grainy scrollbar-thumb-gray scrollbar-thumb-rounded scrollbar-track-gray-lighter scrollbar-w-4 scrolling-touch",
           inter.className
         )}
       >
