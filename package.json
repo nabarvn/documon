@@ -47,6 +47,8 @@
     "react-pdf": "^7.5.1",
     "react-resize-detector": "^9.1.0",
     "react-textarea-autosize": "^8.5.3",
+    "rehype-highlight": "^7.0.0",
+    "remark-gfm": "^4.0.0",
     "simplebar-react": "^3.2.4",
     "stripe": "^14.9.0",
     "tailwind-merge": "^2.0.0",
