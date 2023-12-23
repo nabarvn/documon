@@ -16,14 +16,14 @@ const Dashboard = ({ subscriptionPlan }: DashboardProps) => {
 
   return (
     <MaxWidthWrapper className='max-w-5xl xl:max-w-7xl mb-8 mt-24'>
-      <div className='flex flex-col items-start justify-between gap-4 border-b border-gray-200 sm:flex-row sm:items-center sm:gap-0 pb-5 mt-8'>
+      <div className='flex flex-col items-start justify-between gap-4 border-b border-gray-200 sm:flex-row sm:items-center sm:gap-0 pb-5 my-8'>
         <h1 className='font-bold text-5xl text-gray-900 mb-3'>My Files</h1>
         <UploadButton isSubscribed={subscriptionPlan.isSubscribed} />
       </div>
 
       {/* display all user files */}
       {files && files?.length !== 0 ? (
-        <ul className='grid grid-cols-1 gap-6 divide-y divide-zinc-200 lg:grid-cols-2 xl:grid-cols-3 mt-8'>
+        <ul className='grid grid-cols-1 gap-6 divide-y divide-zinc-200 lg:grid-cols-2 xl:grid-cols-3'>
           {files
             .sort(
               (a, b) =>
@@ -37,7 +37,7 @@ const Dashboard = ({ subscriptionPlan }: DashboardProps) => {
             ))}
         </ul>
       ) : isLoading ? (
-        <Skeleton height={100} className='my-2' count={3} />
+        <Skeleton height={100} className='h-32 mb-6' count={3} />
       ) : (
         <div className='flex flex-col items-center gap-2 mt-16'>
           <Ghost className='h-8 w-8 text-zinc-800' />
