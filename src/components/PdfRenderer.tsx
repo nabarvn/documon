@@ -128,11 +128,11 @@ const PdfRenderer = ({ url }: PdfRendererProps) => {
           </Button>
         </div>
 
-        <div className='space-x-2'>
+        <div className='flex space-x-2'>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button className='gap-1.5' aria-label='zoom' variant='ghost'>
-                <Search className='h-4 w-4' />
+                <Search className='hidden md:block h-4 w-4' />
                 {scale * 100}%
                 <ChevronDown className='h-3 w-3 opacity-50' />
               </Button>
@@ -160,6 +160,7 @@ const PdfRenderer = ({ url }: PdfRendererProps) => {
           <Button
             variant='ghost'
             aria-label='rotate 90 degrees'
+            className='hidden md:block'
             onClick={() => setRotation((prev) => prev + 90)}
           >
             <RotateCw className='h-4 w-4' />
