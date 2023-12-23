@@ -3,8 +3,12 @@ import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { MaxWidthWrapper } from "@/components";
 import { buttonVariants } from "@/components/ui/Button";
+import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 
 export default function Home() {
+  const { getUser } = getKindeServerSession();
+  const user = getUser();
+
   return (
     <>
       <MaxWidthWrapper className='flex flex-col items-center justify-center text-center mb-12 mt-24 md:mt-28 lg:mt-32 xl:mt-36'>
@@ -25,8 +29,7 @@ export default function Home() {
         </p>
 
         <Link
-          href='/dashboard'
-          target='_blank'
+          href={user ? "/dashboard" : "/sign-up"}
           className={buttonVariants({
             size: "lg",
             className: "mt-5",

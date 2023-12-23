@@ -10,14 +10,16 @@ import { useUploadThing } from "@/lib/uploadthing";
 import { Cloud, File, Loader2 } from "lucide-react";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/Dialog";
 
-const UploadDropzone = () => {
+const UploadDropzone = ({ isSubscribed }: { isSubscribed: boolean }) => {
   const router = useRouter();
   const { toast } = useToast();
 
   const [isUploading, setIsUploading] = useState<boolean>(false);
   const [uploadProgress, setUploadProgress] = useState<number>(0);
 
-  const { startUpload } = useUploadThing("pdfUploader");
+  const { startUpload } = useUploadThing(
+    isSubscribed ? "proPlanUploader" : "freePlanUploader"
+  );
 
   const { mutate: startPolling } = trpc.getFile.useMutation({
     onSuccess: (file) => {
@@ -59,8 +61,9 @@ const UploadDropzone = () => {
 
         if (!res) {
           return toast({
-            title: "Something went wrong",
-            description: "Please try again later.",
+            title: "PDF Upload Error",
+            description:
+              "Please ensure your file size is within the specified limit and try again.",
             variant: "destructive",
           });
         }
@@ -106,12 +109,12 @@ const UploadDropzone = () => {
                 </p>
 
                 <p className='text-xs text-zinc-500'>
-                  {/* TODO: calculate max size of pdf dynamically on the basis of subscription model */}
+                  PDF (up to {isSubscribed ? "16" : "4"}MB)
                 </p>
               </div>
 
               {acceptedFiles && acceptedFiles[0] ? (
-                <div className='max-w-xs bg-white flex items-center rounded-md overflow-hidden outline outline-[1px] outline-zinc-200 divide-x divide-zinc-200'>
+                <div className='max-w-[14rem] md:max-w-[18rem] bg-white flex items-center rounded-md overflow-hidden outline outline-[1px] outline-zinc-200 divide-x divide-zinc-200'>
                   <div className='h-full grid place-items-center px-3 py-2'>
                     <File className='h-4 w-4 text-blue-500' />
                   </div>
@@ -123,7 +126,7 @@ const UploadDropzone = () => {
               ) : null}
 
               {isUploading ? (
-                <div className='w-full max-w-xs mx-auto mt-4'>
+                <div className='w-full max-w-[14rem] md:max-w-[18rem] mx-auto mt-4'>
                   <Progress
                     value={uploadProgress}
                     className='h-1 w-full bg-zinc-200'
@@ -155,7 +158,7 @@ const UploadDropzone = () => {
   );
 };
 
-const UploadButton = () => {
+const UploadButton = ({ isSubscribed }: { isSubscribed: boolean }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   return (
@@ -171,8 +174,8 @@ const UploadButton = () => {
         <Button>Upload PDF</Button>
       </DialogTrigger>
 
-      <DialogContent>
-        <UploadDropzone />
+      <DialogContent className='max-w-[21rem] md:max-w-[25rem]'>
+        <UploadDropzone isSubscribed={isSubscribed} />
       </DialogContent>
     </Dialog>
   );
