@@ -1,9 +1,12 @@
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { forwardRef } from "react";
+import remarkGfm from "remark-gfm";
 import { Icons } from "@/components";
 import ReactMarkdown from "react-markdown";
+import rehypeHighlight from "rehype-highlight";
 import { ExtendedMessage } from "@/types/message";
+import { CodeRenderer } from "@/components/chat";
 
 interface MessageProps {
   message: ExtendedMessage;
@@ -54,6 +57,16 @@ const Message = forwardRef<HTMLDivElement, MessageProps>(
           >
             {typeof message.text === "string" ? (
               <ReactMarkdown
+                rehypePlugins={[[rehypeHighlight], [remarkGfm]]}
+                components={{
+                  code: ({ children, className, node, ...rest }) => {
+                    return (
+                      <CodeRenderer className={className} {...rest}>
+                        {children}
+                      </CodeRenderer>
+                    );
+                  },
+                }}
                 className={cn("prose", {
                   "text-zinc-50": message.isUserMessage,
                 })}
