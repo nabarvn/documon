@@ -15,6 +15,10 @@ const ChatInput = ({ isDisabled }: ChatInputProps) => {
   const { addMessage, handleInputChange, isLoading, message } =
     useContext(ChatContext);
 
+  const focusTextarea = () => {
+    textareaRef.current?.focus();
+  };
+
   return (
     <div className='absolute bottom-0 left-0 w-full'>
       <form className='flex flex-row gap-3 mx-2 md:mx-4 md:last:mb-6 lg:mx-auto lg:max-w-2xl xl:max-w-3xl'>
@@ -26,28 +30,40 @@ const ChatInput = ({ isDisabled }: ChatInputProps) => {
                 maxRows={4}
                 autoFocus
                 ref={textareaRef}
+                disabled={isLoading || isDisabled}
                 onChange={handleInputChange}
                 value={message}
                 onKeyDown={(e) => {
-                  if (e.key === "Enter" && !e.shiftKey) {
+                  if (
+                    e.key === "Enter" &&
+                    !e.shiftKey &&
+                    textareaRef.current?.value.trim() !== ""
+                  ) {
                     e.preventDefault();
                     addMessage();
-                    textareaRef.current?.focus();
+                    setTimeout(focusTextarea, 10);
                   }
                 }}
                 placeholder='Enter your question...'
-                className='resize-none text-base scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch pr-12 py-3'
+                className='resize-none text-base scrollbar-thumb-gray scrollbar-thumb-rounded scrollbar-track-gray-lighter scrollbar-w-2 scrolling-touch pr-12 py-3'
               />
 
               <Button
+                size='sm'
                 type='submit'
                 aria-label='send message'
-                disabled={isLoading || isDisabled}
+                disabled={
+                  isLoading ||
+                  isDisabled ||
+                  textareaRef.current?.value.trim() === ""
+                }
                 onClick={() => {
-                  addMessage();
-                  textareaRef.current?.focus();
+                  if (textareaRef.current?.value.trim() !== "") {
+                    addMessage();
+                    setTimeout(focusTextarea, 10);
+                  }
                 }}
-                className='absolute bottom-1.5 right-[8px]'
+                className='absolute bottom-[7px] right-[7px]'
               >
                 <Send className='h-4 w-4' />
               </Button>
