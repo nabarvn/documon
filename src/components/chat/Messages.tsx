@@ -7,7 +7,6 @@ import Skeleton from "react-loading-skeleton";
 import { useIntersection } from "@mantine/hooks";
 import { Loader2, MessageSquare } from "lucide-react";
 import { useContext, useEffect, useRef } from "react";
-import { INFINITE_QUERY_LIMIT } from "@/config/infinite-query";
 
 interface MessagesProps {
   fileId: string;
@@ -20,7 +19,7 @@ const Messages = ({ fileId }: MessagesProps) => {
     trpc.getFileMessages.useInfiniteQuery(
       {
         fileId,
-        limit: INFINITE_QUERY_LIMIT,
+        limit: "10",
       },
       {
         getNextPageParam: (lastPage) => lastPage?.nextCursor,
@@ -63,7 +62,7 @@ const Messages = ({ fileId }: MessagesProps) => {
   }, [entry, fetchNextPage]);
 
   return (
-    <div className='flex max-h-[calc(100vh-3.5rem-7rem)] border-zinc-200 flex-1 flex-col-reverse gap-4 overflow-y-auto p-3 scrollbar-thumb-blue scrollbar-thumb-rounded scrollbar-track-blue-lighter scrollbar-w-2 scrolling-touch'>
+    <div className='flex max-h-[calc(100vh-3.5rem-7rem)] border-zinc-200 flex-1 flex-col-reverse gap-4 overflow-y-auto p-3 scrollbar-thumb-gray scrollbar-thumb-rounded scrollbar-track-gray-lighter scrollbar-w-2 scrolling-touch'>
       {combinedMessages && combinedMessages.length > 0 ? (
         combinedMessages.map((message, i) => {
           const isNextMessageSameOrigin =
@@ -90,10 +89,7 @@ const Messages = ({ fileId }: MessagesProps) => {
         })
       ) : isLoading ? (
         <div className='w-full flex flex-col gap-2'>
-          <Skeleton className='h-16' />
-          <Skeleton className='h-16' />
-          <Skeleton className='h-16' />
-          <Skeleton className='h-16' />
+          <Skeleton className='h-16' count={7} />
         </div>
       ) : (
         <div className='flex-1 flex flex-col items-center justify-center gap-2'>
