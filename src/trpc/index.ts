@@ -55,7 +55,10 @@ export const appRouter = router({
 
     const subscriptionPlan = await getUserSubscriptionPlan();
 
-    if (subscriptionPlan.isSubscribed && dbUser.stripeCustomerId) {
+    if (
+      (subscriptionPlan.isSubscribed || subscriptionPlan.isCanceled) &&
+      dbUser.stripeCustomerId
+    ) {
       const stripeSession = await stripe.billingPortal.sessions.create({
         customer: dbUser.stripeCustomerId,
         return_url: billingUrl,
