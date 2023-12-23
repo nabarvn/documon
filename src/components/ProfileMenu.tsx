@@ -1,11 +1,11 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Icons } from "@/components";
-import { Gem, LayoutDashboard, LogOut } from "lucide-react";
 import { Button } from "@/components/ui";
 import { getUserSubscriptionPlan } from "@/lib/stripe";
 import { Avatar, AvatarFallback } from "@/components/ui/Avatar";
 import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/server";
+import { CreditCard, Gem, LayoutDashboard, LogOut } from "lucide-react";
 
 import {
   DropdownMenu,
@@ -72,7 +72,10 @@ const ProfileMenu = async ({ name, email, imageUrl }: ProfileMenuProps) => {
 
         <DropdownMenuItem asChild>
           {subscriptionPlan?.isSubscribed ? (
-            <Link href='/dashboard/billing'>Manage Subscription</Link>
+            <Link href='/dashboard/billing'>
+              <CreditCard className='h-4 w-4 mr-2' />
+              Manage Subscription
+            </Link>
           ) : (
             <Link href='/pricing'>
               <Gem className='text-blue-600 h-4 w-4 mr-2' />
