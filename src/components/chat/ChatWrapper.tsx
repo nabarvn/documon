@@ -70,7 +70,7 @@ const ChatWrapper = ({ fileId, isSubscribed }: ChatWrapperProps) => {
               <span className='font-medium'>
                 {isSubscribed ? "Pro" : "Free"}
               </span>{" "}
-              plan supports up to{" "}
+              plan supports upto{" "}
               {isSubscribed
                 ? PLANS.find((p) => p.name === "Pro")?.pagesPerPdf
                 : PLANS.find((p) => p.name === "Free")?.pagesPerPdf}{" "}
