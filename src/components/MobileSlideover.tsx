@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from "react";
 import {
   ArrowRight,
   CircleDollarSign,
+  CreditCard,
   LayoutDashboard,
   LogIn,
   LogOut,
@@ -26,12 +27,24 @@ const MobileSlideover = ({ isAuth }: { isAuth: boolean }) => {
       }
     };
 
-    document.addEventListener("mousedown", handleMouseDown);
+    window.addEventListener("mousedown", handleMouseDown);
 
     return () => {
-      document.removeEventListener("mousedown", handleMouseDown);
+      window.removeEventListener("mousedown", handleMouseDown);
     };
   }, [isOpen]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsOpen(false);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   return (
     <>
@@ -93,6 +106,19 @@ const MobileSlideover = ({ isAuth }: { isAuth: boolean }) => {
                     >
                       <LayoutDashboard className='h-4 w-4 mr-2' />
                       Dashboard
+                    </Link>
+                  </li>
+
+                  <li className='h-px w-full bg-gray-300' />
+
+                  <li>
+                    <Link
+                      href='/dashboard/billing'
+                      onClick={() => setIsOpen(false)}
+                      className='flex items-center w-full font-semibold'
+                    >
+                      <CreditCard className='h-4 w-4 mr-2' />
+                      Manage Subscription
                     </Link>
                   </li>
 
