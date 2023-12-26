@@ -13,10 +13,16 @@ import {
 import { PLANS } from "@/config/stripe";
 import { ArrowRight, Check, HelpCircle, Minus } from "lucide-react";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+import { getUserSubscriptionPlan } from "@/lib/stripe";
+import { redirect } from "next/navigation";
 
-const PricingPage = () => {
+const PricingPage = async () => {
   const { getUser } = getKindeServerSession();
   const user = getUser();
+
+  const plan = await getUserSubscriptionPlan();
+
+  if (plan.isSubscribed) redirect("/dashboard/billing");
 
   const pricingItems = [
     {
