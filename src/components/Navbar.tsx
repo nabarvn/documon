@@ -8,14 +8,9 @@ import {
   getKindeServerSession,
 } from "@kinde-oss/kinde-auth-nextjs/server";
 
-import { CreditCard, Gem } from "lucide-react";
-import { getUserSubscriptionPlan } from "@/lib/stripe";
-
 const Navbar = async () => {
   const { getUser } = getKindeServerSession();
   const user = getUser();
-
-  const subscriptionPlan = await getUserSubscriptionPlan();
 
   return (
     <nav className='sticky h-14 inset-x-0 top-0 z-30 w-full border-b border-gray-200 bg-white/75 backdrop-blur-lg transition-all px-4'>
@@ -25,33 +20,7 @@ const Navbar = async () => {
             <span>documon.</span>
           </Link>
 
-          <div className='flex md:hidden items-center gap-2'>
-            {subscriptionPlan?.isSubscribed ? (
-              <Link
-                href='/dashboard/billing'
-                className={buttonVariants({
-                  size: "sm",
-                  variant: "ghost",
-                  className: "z-40",
-                })}
-              >
-                <CreditCard className='h-4 w-4' />
-              </Link>
-            ) : (
-              <Link
-                href='/pricing'
-                className={buttonVariants({
-                  size: "sm",
-                  variant: "ghost",
-                  className: "z-40",
-                })}
-              >
-                <Gem className='text-blue-600 h-4 w-4' />
-              </Link>
-            )}
-
-            <MobileSlideover isAuth={!!user} />
-          </div>
+          <MobileSlideover isAuth={!!user} />
 
           <div className='hidden items-center space-x-4 sm:flex'>
             {!user ? (
