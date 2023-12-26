@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import Dropzone from "react-dropzone";
 import { trpc } from "@/app/_trpc/client";
 import { useRouter } from "next/navigation";
@@ -8,9 +7,15 @@ import { useToast } from "@/components/ui/UseToast";
 import { Button, Progress } from "@/components/ui";
 import { useUploadThing } from "@/lib/uploadthing";
 import { Cloud, File, Loader2 } from "lucide-react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/Dialog";
 
-const UploadDropzone = ({ isSubscribed }: { isSubscribed: boolean }) => {
+interface UploadDropzoneProps {
+  isSubscribed: boolean;
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
+}
+
+const UploadDropzone = ({ isSubscribed, setIsOpen }: UploadDropzoneProps) => {
   const router = useRouter();
   const { toast } = useToast();
 
@@ -51,6 +56,12 @@ const UploadDropzone = ({ isSubscribed }: { isSubscribed: boolean }) => {
     <Dropzone
       // we want users to drop only one file at a time
       multiple={false}
+      noClick={true}
+      noKeyboard={true}
+      disabled={isUploading}
+      accept={{
+        "application/pdf": [".pdf"],
+      }}
       onDrop={async (acceptedFile) => {
         setIsUploading(true);
 
@@ -60,6 +71,8 @@ const UploadDropzone = ({ isSubscribed }: { isSubscribed: boolean }) => {
         const res = await startUpload(acceptedFile);
 
         if (!res) {
+          setIsOpen(false);
+
           return toast({
             title: "PDF Upload Error",
             description:
@@ -75,6 +88,8 @@ const UploadDropzone = ({ isSubscribed }: { isSubscribed: boolean }) => {
         const key = fileResponse?.key;
 
         if (!key) {
+          setIsOpen(false);
+
           return toast({
             title: "Something went wrong",
             description: "Please try again later.",
@@ -175,7 +190,7 @@ const UploadButton = ({ isSubscribed }: { isSubscribed: boolean }) => {
       </DialogTrigger>
 
       <DialogContent className='max-w-[21rem] md:max-w-[25rem]'>
-        <UploadDropzone isSubscribed={isSubscribed} />
+        <UploadDropzone isSubscribed={isSubscribed} setIsOpen={setIsOpen} />
       </DialogContent>
     </Dialog>
   );
