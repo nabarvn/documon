@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import { ReactNode } from "react";
+import SimpleBar from "simplebar-react";
 
 interface CodeRendererProps {
   children: ReactNode;
@@ -8,14 +9,16 @@ interface CodeRendererProps {
 
 const CodeRenderer = ({ children, className }: CodeRendererProps) => {
   return (
-    <code
-      className={cn(
-        className,
-        "block max-w-[15rem] md:max-w-sm lg:max-w-[19rem] xl:md:max-w-sm overflow-auto scrollbar-thumb-gray scrollbar-thumb-rounded scrollbar-track-gray-lighter scrollbar-w-2 scrolling-touch"
-      )}
-    >
-      {children}
-    </code>
+    <SimpleBar>
+      <code
+        className={cn(
+          className,
+          "block overflow-auto scrollbar-thumb-gray scrollbar-thumb-rounded scrollbar-track-gray-lighter scrollbar-w-2 scrolling-touch"
+        )}
+      >
+        {children}
+      </code>
+    </SimpleBar>
   );
 };
 
