@@ -29,6 +29,8 @@
     "@trpc/react-query": "^10.38.4",
     "@trpc/server": "^10.38.4",
     "@uploadthing/react": "^6.0.2",
+    "@upstash/ratelimit": "^1.0.0",
+    "@upstash/redis": "^1.27.1",
     "ai": "^2.2.27",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
