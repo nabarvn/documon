@@ -47,7 +47,7 @@ const ChatInput = ({ isDisabled }: ChatInputProps) => {
                   }
                 }}
                 placeholder='Enter your question...'
-                className='resize-none text-base scrollbar-thumb-gray scrollbar-thumb-rounded scrollbar-track-gray-lighter scrollbar-w-2 scrolling-touch pr-12 py-3'
+                className='resize-none text-base chat-scrollbar-thumb-gray chat-scrollbar-thumb-rounded chat-scrollbar-track-gray-lighter scrollbar-w-2 scrolling-touch pr-12 py-3'
               />
 
               <Button
