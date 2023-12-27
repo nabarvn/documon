@@ -40,7 +40,7 @@ const PdfFullscreen = ({ fileUrl }: PdfFullscreenProps) => {
       <DialogContent className='max-w-[21rem] md:max-w-2xl xl:max-w-5xl w-full'>
         <SimpleBar
           autoHide={false}
-          className='max-h-[calc(100vh-10rem)] max-w-[21rem] md:max-w-2xl xl:max-w-5xl mt-6'
+          className='max-h-[calc(100svh-10rem)] max-w-[21rem] md:max-w-2xl xl:max-w-5xl mt-6'
         >
           <div ref={ref}>
             <Document
