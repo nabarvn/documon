@@ -24,13 +24,18 @@ export default function RootLayout({
     <html lang='en' className='light'>
       <body
         className={cn(
-          "min-h-screen font-sans antialiased grainy scrollbar-thumb-gray scrollbar-thumb-rounded scrollbar-track-gray-lighter scrollbar-w-4 scrolling-touch",
+          "min-h-screen font-sans antialiased grainy",
           inter.className
         )}
+        style={{ height: "100svh" }}
       >
         <Providers>
           <Navbar />
-          {children}
+
+          <div className='h-[calc(100svh-3.5rem)] overflow-y-auto scrollbar-thumb-gray scrollbar-thumb-rounded scrollbar-track-gray-lighter scrollbar-w-4 scrolling-touch'>
+            {children}
+          </div>
+
           <Toaster />
         </Providers>
       </body>
