@@ -23,10 +23,7 @@ export default function RootLayout({
   return (
     <html lang='en' className='light'>
       <body
-        className={cn(
-          "min-h-screen font-sans antialiased grainy",
-          inter.className
-        )}
+        className={cn("font-sans antialiased grainy", inter.className)}
         style={{ height: "100svh" }}
       >
         <Providers>
