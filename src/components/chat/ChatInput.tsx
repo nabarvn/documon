@@ -16,7 +16,9 @@ const ChatInput = ({ isDisabled }: ChatInputProps) => {
     useContext(ChatContext);
 
   const focusTextarea = () => {
-    textareaRef.current?.focus();
+    setTimeout(() => {
+      textareaRef.current?.focus();
+    }, 10);
   };
 
   return (
@@ -41,7 +43,7 @@ const ChatInput = ({ isDisabled }: ChatInputProps) => {
                   ) {
                     e.preventDefault();
                     addMessage();
-                    setTimeout(focusTextarea, 10);
+                    focusTextarea();
                   }
                 }}
                 placeholder='Enter your question...'
@@ -52,15 +54,13 @@ const ChatInput = ({ isDisabled }: ChatInputProps) => {
                 size='sm'
                 type='submit'
                 aria-label='send message'
-                disabled={
-                  isLoading ||
-                  isDisabled ||
-                  textareaRef.current?.value.trim() === ""
-                }
-                onClick={() => {
+                disabled={isLoading || isDisabled}
+                onClick={(e) => {
+                  e.preventDefault();
+
                   if (textareaRef.current?.value.trim() !== "") {
                     addMessage();
-                    setTimeout(focusTextarea, 10);
+                    focusTextarea();
                   }
                 }}
                 className='absolute bottom-[7px] right-[7px]'
