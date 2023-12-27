@@ -13,7 +13,7 @@ const CodeRenderer = ({ children, className }: CodeRendererProps) => {
       <code
         className={cn(
           className,
-          "block overflow-auto scrollbar-thumb-gray scrollbar-thumb-rounded scrollbar-track-gray-lighter scrollbar-w-2 scrolling-touch"
+          "block overflow-auto chat-scrollbar-thumb-gray chat-scrollbar-thumb-rounded chat-scrollbar-track-gray-lighter scrollbar-w-2 scrolling-touch"
         )}
       >
         {children}
