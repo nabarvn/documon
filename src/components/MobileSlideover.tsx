@@ -143,9 +143,10 @@ const MobileSlideover = ({ isAuth }: { isAuth: boolean }) => {
 
       <div
         onClick={() => setIsOpen(false)}
-        className={cn("md:hidden fixed inset-0 h-screen z-20 bg-gray-900/25", {
+        className={cn("md:hidden fixed inset-0 z-20 bg-gray-900/25", {
           hidden: !isOpen,
         })}
+        style={{ height: "100svh" }}
       />
     </>
   );
