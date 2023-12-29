@@ -8,6 +8,7 @@ import {
   ArrowRight,
   CircleDollarSign,
   CreditCard,
+  Github,
   LayoutDashboard,
   LogIn,
   LogOut,
@@ -119,6 +120,20 @@ const MobileSlideover = ({ isAuth }: { isAuth: boolean }) => {
                     >
                       <CreditCard className='h-4 w-4 mr-2' />
                       Manage Subscription
+                    </Link>
+                  </li>
+
+                  <li className='h-px w-full bg-gray-300' />
+
+                  <li>
+                    <Link
+                      target='_blank'
+                      href='https://github.com/nabarvn/documon'
+                      onClick={() => setIsOpen(false)}
+                      className='flex items-center w-full font-semibold'
+                    >
+                      <Github className='h-4 w-4 mr-2' />
+                      Star on GitHub
                     </Link>
                   </li>
 
