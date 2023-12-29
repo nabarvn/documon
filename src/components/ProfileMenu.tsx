@@ -5,7 +5,7 @@ import { Button } from "@/components/ui";
 import { getUserSubscriptionPlan } from "@/lib/stripe";
 import { Avatar, AvatarFallback } from "@/components/ui/Avatar";
 import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/server";
-import { CreditCard, Gem, LayoutDashboard, LogOut } from "lucide-react";
+import { CreditCard, Gem, Github, LayoutDashboard, LogOut } from "lucide-react";
 
 import {
   DropdownMenu,
@@ -82,6 +82,13 @@ const ProfileMenu = async ({ name, email, imageUrl }: ProfileMenuProps) => {
               Upgrade
             </Link>
           )}
+        </DropdownMenuItem>
+
+        <DropdownMenuItem asChild>
+          <Link target='_blank' href='https://github.com/nabarvn/documon'>
+            <Github className='h-4 w-4 mr-2' />
+            Star on GitHub
+          </Link>
         </DropdownMenuItem>
 
         <DropdownMenuSeparator />
