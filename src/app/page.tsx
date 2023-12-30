@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, PartyPopper } from "lucide-react";
 import { MaxWidthWrapper } from "@/components";
 import { buttonVariants } from "@/components/ui/Button";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
@@ -12,8 +12,10 @@ export default function Home() {
   return (
     <>
       <MaxWidthWrapper className='flex flex-col items-center justify-center text-center mb-12 mt-24 md:mt-28 lg:mt-32 xl:mt-36'>
-        <div className='mx-auto flex max-w-fit items-center justify-center space-x-2 overflow-hidden rounded-full border border-gray-200 bg-white shadow-md backdrop-blur transition-all hover:border-gray-300 mb-4 px-7 py-2'>
-          <p className='text-sm font-semibold text-gray-700 cursor-default'>
+        <div className='mx-auto flex max-w-fit items-center justify-center text-gray-700 space-x-2 overflow-hidden rounded-full border border-gray-200 bg-white shadow-md backdrop-blur transition-all hover:border-gray-300 mb-4 px-7 py-2'>
+          <PartyPopper className='h-4 w-4' />
+
+          <p className='text-sm font-semibold cursor-default'>
             Documon is now live!
           </p>
         </div>
