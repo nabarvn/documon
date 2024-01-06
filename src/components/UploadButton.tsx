@@ -26,6 +26,8 @@ const UploadDropzone = ({ isSubscribed, setIsOpen }: UploadDropzoneProps) => {
     isSubscribed ? "proPlanUploader" : "freePlanUploader"
   );
 
+  const { data } = trpc.getQuotaLimit.useQuery();
+
   const { mutate: startPolling } = trpc.getFile.useMutation({
     onSuccess: (file) => {
       router.push(`/dashboard/${file.id}`);
@@ -66,6 +68,14 @@ const UploadDropzone = ({ isSubscribed, setIsOpen }: UploadDropzoneProps) => {
         setIsUploading(true);
 
         const progressInterval = startSimulatedProgress();
+
+        if (data?.isQuotaExceeded) {
+          return toast({
+            title: "Quota Error",
+            description: `You've exceeded the ${data.planName} plan quota limit.`,
+            variant: "destructive",
+          });
+        }
 
         // handle file uploading
         const res = await startUpload(acceptedFile);
