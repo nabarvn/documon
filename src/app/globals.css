@@ -42,6 +42,6 @@
   }
 
   .scrollbar-thumb-rounded::-webkit-scrollbar-thumb {
-    border-radius: 7px;
+    border-radius: 3px;
   }
 }

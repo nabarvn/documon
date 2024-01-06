@@ -28,7 +28,7 @@ const PricingPage = async () => {
     {
       plan: "Free",
       tagline: "For small side projects.",
-      quota: 10,
+      quota: PLANS.find((p) => p.slug === "free")!.quota,
       features: [
         {
           text: "5 pages per PDF",

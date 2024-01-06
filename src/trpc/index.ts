@@ -131,6 +131,35 @@ export const appRouter = router({
       return { status: file.uploadStatus };
     }),
 
+  getQuotaLimit: privateProcedure.query(async ({ ctx }) => {
+    const { userId } = ctx;
+
+    if (!userId) throw new TRPCError({ code: "UNAUTHORIZED" });
+
+    const subscriptionPlan = await getUserSubscriptionPlan();
+
+    const fileCount = await db.file.count({
+      where: {
+        userId: userId,
+      },
+    });
+
+    const proLimit = PLANS.find((plan) => plan.name === "Pro")!.quota;
+    const freeLimit = PLANS.find((plan) => plan.name === "Free")!.quota;
+
+    const isProQuotaExceeded = fileCount >= proLimit;
+    const isFreeQuotaExceeded = fileCount >= freeLimit;
+
+    return {
+      fileCount: fileCount,
+      planName: subscriptionPlan.name,
+      quotaLimit: subscriptionPlan.isSubscribed ? proLimit : freeLimit,
+      isQuotaExceeded: subscriptionPlan.isSubscribed
+        ? isProQuotaExceeded
+        : isFreeQuotaExceeded,
+    };
+  }),
+
   getFileMessages: privateProcedure
     .input(
       z.object({
