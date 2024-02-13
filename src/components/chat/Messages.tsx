@@ -7,12 +7,14 @@ import Skeleton from "react-loading-skeleton";
 import { useIntersection } from "@mantine/hooks";
 import { Loader2, MessageSquare } from "lucide-react";
 import { useContext, useEffect, useRef } from "react";
+import { DocumentContext } from "@/context/document";
 
 interface MessagesProps {
   fileId: string;
 }
 
 const Messages = ({ fileId }: MessagesProps) => {
+  const { numPages } = useContext(DocumentContext);
   const { isLoading: isAiThinking } = useContext(ChatContext);
 
   const { data, isLoading, fetchNextPage } =
@@ -35,8 +37,8 @@ const Messages = ({ fileId }: MessagesProps) => {
     isUserMessage: false,
     createdAt: new Date().toISOString(),
     text: (
-      <span className='flex h-full items-center justify-center'>
-        <Loader2 className='h-4 w-4 animate-spin' />
+      <span className="flex h-full items-center justify-center">
+        <Loader2 className="h-4 w-4 animate-spin" />
       </span>
     ),
   };
@@ -62,7 +64,7 @@ const Messages = ({ fileId }: MessagesProps) => {
   }, [entry, fetchNextPage]);
 
   return (
-    <div className='flex max-h-[calc(100svh-3.5rem-7rem)] border-zinc-200 flex-1 flex-col-reverse gap-4 overflow-y-auto p-3 chat-scrollbar-thumb-gray chat-scrollbar-thumb-rounded chat-scrollbar-track-gray-lighter scrollbar-w-2 scrolling-touch'>
+    <div className="flex max-h-[calc(100svh-3.5rem-7rem)] border-zinc-200 flex-1 flex-col-reverse gap-4 overflow-y-auto p-3 chat-scrollbar-thumb-gray chat-scrollbar-thumb-rounded chat-scrollbar-track-gray-lighter scrollbar-w-2 scrolling-touch">
       {combinedMessages && combinedMessages.length > 0 ? (
         combinedMessages.map((message, i) => {
           const isNextMessageSameOrigin =
@@ -87,16 +89,16 @@ const Messages = ({ fileId }: MessagesProps) => {
               />
             );
         })
-      ) : isLoading ? (
-        <div className='w-full flex flex-col gap-2'>
-          <Skeleton className='h-16' count={7} />
+      ) : isLoading || !numPages ? (
+        <div className="w-full flex flex-col gap-2">
+          <Skeleton className="h-16" count={7} />
         </div>
       ) : (
-        <div className='flex-1 flex flex-col items-center justify-center gap-2'>
-          <MessageSquare className='h-8 w-8 text-blue-500' />
-          <h3 className='font-semibold text-xl'>You&apos;re all set!</h3>
+        <div className="flex-1 flex flex-col items-center justify-center gap-2">
+          <MessageSquare className="h-8 w-8 text-blue-500" />
+          <h3 className="font-semibold text-xl">You&apos;re all set!</h3>
 
-          <p className='text-zinc-500 text-sm'>
+          <p className="text-zinc-500 text-sm">
             Ask your first question to get started.
           </p>
         </div>
