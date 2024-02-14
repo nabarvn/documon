@@ -1,11 +1,13 @@
 "use client";
 
 import Link from "next/link";
+import { useContext } from "react";
 import { trpc } from "@/app/_trpc/client";
 import { ChatInput, Messages } from "@/components/chat";
 import { ChevronLeft, Loader2, XCircle } from "lucide-react";
 import { buttonVariants } from "@/components/ui/Button";
 import { ChatContextProvider } from "@/context/chat";
+import { DocumentContext } from "@/context/document";
 import { PLANS } from "@/config/stripe";
 
 interface ChatWrapperProps {
@@ -14,6 +16,11 @@ interface ChatWrapperProps {
 }
 
 const ChatWrapper = ({ fileId, isSubscribed }: ChatWrapperProps) => {
+  const { numPages } = useContext(DocumentContext);
+
+  const proNumPages = PLANS.find((p) => p.name === "Pro")?.pagesPerPdf;
+  const freeNumPages = PLANS.find((p) => p.name === "Free")?.pagesPerPdf;
+
   const { data, isLoading } = trpc.getFileUploadStatus.useQuery(
     {
       fileId,
@@ -26,13 +33,13 @@ const ChatWrapper = ({ fileId, isSubscribed }: ChatWrapperProps) => {
 
   if (isLoading)
     return (
-      <div className='relative h-[calc(100svh-9.5rem)] lg:min-h-full bg-zinc-50 flex divide-y divide-zinc-200 flex-col justify-between gap-2 py-20'>
-        <div className='flex-1 flex justify-center items-center flex-col mb-28'>
-          <div className='flex flex-col items-center gap-2'>
-            <Loader2 className='h-8 w-8 text-blue-500 animate-spin' />
-            <h3 className='font-semibold text-xl'>Loading...</h3>
+      <div className="relative h-[calc(100svh-9.5rem)] lg:min-h-full bg-zinc-50 flex divide-y divide-zinc-200 flex-col justify-between gap-2 py-20">
+        <div className="flex-1 flex justify-center items-center flex-col mb-28">
+          <div className="flex flex-col items-center gap-2">
+            <Loader2 className="h-8 w-8 text-blue-500 animate-spin" />
+            <h3 className="font-semibold text-xl">Loading...</h3>
 
-            <p className='text-zinc-500 text-sm'>
+            <p className="text-zinc-500 text-sm">
               We&apos;re preparing your PDF.
             </p>
           </div>
@@ -44,12 +51,12 @@ const ChatWrapper = ({ fileId, isSubscribed }: ChatWrapperProps) => {
 
   if (data?.status === "PROCESSING")
     return (
-      <div className='relative h-[calc(100svh-9.5rem)] lg:min-h-full bg-zinc-50 flex divide-y divide-zinc-200 flex-col justify-between gap-2 py-20'>
-        <div className='flex-1 flex justify-center items-center flex-col mb-28'>
-          <div className='flex flex-col items-center gap-2'>
-            <Loader2 className='h-8 w-8 text-blue-500 animate-spin' />
-            <h3 className='font-semibold text-xl'>Processing PDF...</h3>
-            <p className='text-zinc-500 text-sm'>This won&apos;t take long.</p>
+      <div className="relative h-[calc(100svh-9.5rem)] lg:min-h-full bg-zinc-50 flex divide-y divide-zinc-200 flex-col justify-between gap-2 py-20">
+        <div className="flex-1 flex justify-center items-center flex-col mb-28">
+          <div className="flex flex-col items-center gap-2">
+            <Loader2 className="h-8 w-8 text-blue-500 animate-spin" />
+            <h3 className="font-semibold text-xl">Processing PDF...</h3>
+            <p className="text-zinc-500 text-sm">This won&apos;t take long.</p>
           </div>
         </div>
 
@@ -57,34 +64,35 @@ const ChatWrapper = ({ fileId, isSubscribed }: ChatWrapperProps) => {
       </div>
     );
 
-  if (data?.status === "FAILED")
+  if (
+    data?.status === "FAILED" ||
+    numPages! > proNumPages! ||
+    numPages! > freeNumPages!
+  )
     return (
-      <div className='relative h-[calc(100svh-3.5rem)] lg:min-h-full bg-zinc-50 flex divide-y divide-zinc-200 flex-col justify-between gap-2 py-20'>
-        <div className='flex-1 flex justify-center items-center flex-col mb-28'>
-          <div className='flex flex-col items-center gap-2'>
-            <XCircle className='h-8 w-8 text-red-500' />
-            <h3 className='font-semibold text-xl'>Too many pages in PDF</h3>
+      <div className="relative h-[calc(100svh-3.5rem)] lg:min-h-full bg-zinc-50 flex divide-y divide-zinc-200 flex-col justify-between gap-2 py-20">
+        <div className="flex-1 flex justify-center items-center flex-col mb-28">
+          <div className="flex flex-col items-center gap-2">
+            <XCircle className="h-8 w-8 text-red-500" />
+            <h3 className="font-semibold text-xl">Too many pages in PDF</h3>
 
-            <p className='text-zinc-500 text-sm'>
+            <p className="text-zinc-500 text-sm">
               Your{" "}
-              <span className='font-medium'>
+              <span className="font-medium">
                 {isSubscribed ? "Pro" : "Free"}
               </span>{" "}
-              plan supports upto{" "}
-              {isSubscribed
-                ? PLANS.find((p) => p.name === "Pro")?.pagesPerPdf
-                : PLANS.find((p) => p.name === "Free")?.pagesPerPdf}{" "}
+              plan supports upto {isSubscribed ? proNumPages : freeNumPages}{" "}
               pages per PDF.
             </p>
 
             <Link
-              href='/dashboard'
+              href="/dashboard"
               className={buttonVariants({
                 variant: "secondary",
                 className: "mt-4",
               })}
             >
-              <ChevronLeft className='h-3 w-3 mr-1.5' />
+              <ChevronLeft className="h-3 w-3 mr-1.5" />
               Back
             </Link>
           </div>
@@ -96,8 +104,8 @@ const ChatWrapper = ({ fileId, isSubscribed }: ChatWrapperProps) => {
 
   return (
     <ChatContextProvider fileId={fileId}>
-      <div className='relative h-[calc(100svh-3.5rem)] bg-zinc-50 flex divide-y divide-zinc-200 flex-col justify-between gap-2'>
-        <div className='flex-1 justify-between flex flex-col'>
+      <div className="relative h-[calc(100svh-3.5rem)] bg-zinc-50 flex divide-y divide-zinc-200 flex-col justify-between gap-2">
+        <div className="flex-1 justify-between flex flex-col">
           <Messages fileId={fileId} />
         </div>
 
