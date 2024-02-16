@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
 import SimpleBar from "simplebar-react";
+import { useState, useContext } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import { useToast } from "@/components/ui/UseToast";
 
@@ -27,6 +27,7 @@ import { PdfFullscreen } from "@/components";
 import { Button, Input } from "@/components/ui";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useResizeDetector } from "react-resize-detector";
+import { DocumentContext } from "@/context/document";
 
 import {
   DropdownMenu,
@@ -43,7 +44,8 @@ const PdfRenderer = ({ url }: PdfRendererProps) => {
   const { toast } = useToast();
   const { width, ref } = useResizeDetector();
 
-  const [numPages, setNumPages] = useState<number>();
+  const { numPages, setNumPages } = useContext(DocumentContext);
+
   const [currPage, setCurrPage] = useState<number>(1);
   const [scale, setScale] = useState<number>(1);
   const [rotation, setRotation] = useState<number>(0);
@@ -78,22 +80,22 @@ const PdfRenderer = ({ url }: PdfRendererProps) => {
   };
 
   return (
-    <div className='w-full bg-white rounded-md shadow flex flex-col items-center'>
-      <div className='h-14 w-full border-b border-zinc-200 flex items-center justify-between px-2'>
-        <div className='flex items-center gap-1.5'>
+    <div className="w-full bg-white rounded-md shadow flex flex-col items-center">
+      <div className="h-14 w-full border-b border-zinc-200 flex items-center justify-between px-2">
+        <div className="flex items-center gap-1.5">
           <Button
-            variant='ghost'
-            aria-label='previous page'
+            variant="ghost"
+            aria-label="previous page"
             disabled={currPage <= 1}
             onClick={() => {
               setCurrPage((prev) => (prev - 1 > 1 ? prev - 1 : 1));
               setValue("page", String(currPage - 1));
             }}
           >
-            <ChevronDown className='h-4 w-4' />
+            <ChevronDown className="h-4 w-4" />
           </Button>
 
-          <div className='flex items-center gap-1.5'>
+          <div className="flex items-center gap-1.5">
             <Input
               {...register("page")}
               className={cn(
@@ -107,15 +109,15 @@ const PdfRenderer = ({ url }: PdfRendererProps) => {
               }}
             />
 
-            <p className='text-zinc-700 text-sm space-x-1'>
+            <p className="text-zinc-700 text-sm space-x-1">
               <span>/</span>
               <span>{numPages ?? "x"}</span>
             </p>
           </div>
 
           <Button
-            variant='ghost'
-            aria-label='next page'
+            variant="ghost"
+            aria-label="next page"
             disabled={numPages === undefined || currPage === numPages}
             onClick={() => {
               setCurrPage((prev) =>
@@ -124,17 +126,17 @@ const PdfRenderer = ({ url }: PdfRendererProps) => {
               setValue("page", String(currPage + 1));
             }}
           >
-            <ChevronUp className='h-4 w-4' />
+            <ChevronUp className="h-4 w-4" />
           </Button>
         </div>
 
-        <div className='flex space-x-2'>
+        <div className="flex space-x-2">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button className='gap-1.5' aria-label='zoom' variant='ghost'>
-                <Search className='hidden md:block h-4 w-4' />
+              <Button className="gap-1.5" aria-label="zoom" variant="ghost">
+                <Search className="hidden md:block h-4 w-4" />
                 {scale * 100}%
-                <ChevronDown className='h-3 w-3 opacity-50' />
+                <ChevronDown className="h-3 w-3 opacity-50" />
               </Button>
             </DropdownMenuTrigger>
 
@@ -158,24 +160,24 @@ const PdfRenderer = ({ url }: PdfRendererProps) => {
           </DropdownMenu>
 
           <Button
-            variant='ghost'
-            aria-label='rotate 90 degrees'
-            className='hidden md:block'
+            variant="ghost"
+            aria-label="rotate 90 degrees"
+            className="hidden md:block"
             onClick={() => setRotation((prev) => prev + 90)}
           >
-            <RotateCw className='h-4 w-4' />
+            <RotateCw className="h-4 w-4" />
           </Button>
 
           <PdfFullscreen fileUrl={url} />
         </div>
       </div>
 
-      <div className='flex-1 w-full max-h-screen'>
-        <SimpleBar autoHide={false} className='max-h-[calc(100svh-10rem)]'>
+      <div className="flex-1 w-full max-h-screen">
+        <SimpleBar autoHide={false} className="max-h-[calc(100svh-10rem)]">
           <div ref={ref}>
             <Document
               file={url}
-              className='max-h-full'
+              className="max-h-full"
               onLoadError={() => {
                 toast({
                   title: "Error loading PDF",
@@ -184,8 +186,8 @@ const PdfRenderer = ({ url }: PdfRendererProps) => {
                 });
               }}
               loading={
-                <div className='flex justify-center'>
-                  <Loader2 className='h-6 w-6 animate-spin my-24' />
+                <div className="flex justify-center">
+                  <Loader2 className="h-6 w-6 animate-spin my-24" />
                 </div>
               }
               onLoadSuccess={({ numPages }) => setNumPages(numPages)}
@@ -209,8 +211,8 @@ const PdfRenderer = ({ url }: PdfRendererProps) => {
                 className={cn(isLoading && "hidden")}
                 onRenderSuccess={() => setRenderedScale(scale)}
                 loading={
-                  <div className='flex justify-center'>
-                    <Loader2 className='h-6 w-6 animate-spin my-24' />
+                  <div className="flex justify-center">
+                    <Loader2 className="h-6 w-6 animate-spin my-24" />
                   </div>
                 }
               />
