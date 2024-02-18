@@ -11,3 +11,4 @@ export { default as BillingForm } from "./BillingForm";
 export { default as ProfileMenu } from "./ProfileMenu";
 export { default as MobileSlideover } from "./MobileSlideover";
 export { default as PdfFileCard } from "./PdfFileCard";
+export { default as Main } from "./Main";
