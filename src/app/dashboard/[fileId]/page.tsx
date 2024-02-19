@@ -1,9 +1,8 @@
 import { db } from "@/db";
+import { Main } from "@/components";
 import { notFound, redirect } from "next/navigation";
-import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
-import { PdfRenderer } from "@/components";
-import { ChatWrapper } from "@/components/chat";
 import { getUserSubscriptionPlan } from "@/lib/stripe";
+import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 
 interface ChatPageProps {
   params: {
@@ -32,19 +31,9 @@ const ChatPage = async ({ params }: ChatPageProps) => {
   const plan = await getUserSubscriptionPlan();
 
   return (
-    <div className='flex-1 justify-between flex flex-col h-[calc(100svh-3.5rem)]'>
-      <div className='mx-auto w-full max-w-8xl grow lg:flex xl:px-2'>
-        {/* left sidebar & main wrapper */}
-        <div className='flex-1 xl:flex'>
-          <div className='h-[calc(100svh-3.5rem)] px-4 py-6 sm:px-6 lg:pl-8 xl:flex-1 xl:pl-6'>
-            {/* main area */}
-            <PdfRenderer url={file.url} />
-          </div>
-        </div>
-
-        <div className='shrink-0 lg:flex-[0.75] border-t border-gray-200 lg:w-96 lg:border-l lg:border-t-0'>
-          <ChatWrapper fileId={file.id} isSubscribed={plan.isSubscribed} />
-        </div>
+    <div className="flex-1 justify-between flex flex-col h-[calc(100svh-3.5rem)]">
+      <div className="mx-auto w-full max-w-8xl grow lg:flex xl:px-2">
+        <Main file={file} plan={plan} />
       </div>
     </div>
   );
