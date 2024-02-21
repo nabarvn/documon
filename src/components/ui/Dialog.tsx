@@ -31,7 +31,7 @@ DialogOverlay.displayName = DialogPrimitive.Overlay.displayName;
 
 interface DialogContentProps
   extends React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content> {
-  isUploading: boolean;
+  isUploading?: boolean;
 }
 
 const DialogContent = React.forwardRef<
