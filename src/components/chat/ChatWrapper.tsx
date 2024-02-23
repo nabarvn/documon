@@ -66,8 +66,8 @@ const ChatWrapper = ({ fileId, isSubscribed }: ChatWrapperProps) => {
 
   if (
     data?.status === "FAILED" ||
-    numPages! > proNumPages! ||
-    numPages! > freeNumPages!
+    (isSubscribed && numPages! > proNumPages!) ||
+    (!isSubscribed && numPages! > freeNumPages!)
   )
     return (
       <div className="relative h-[calc(100svh-3.5rem)] lg:min-h-full bg-zinc-50 flex divide-y divide-zinc-200 flex-col justify-between gap-2 py-20">
