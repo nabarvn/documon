@@ -32,23 +32,23 @@ const PdfFullscreen = ({ fileUrl }: PdfFullscreenProps) => {
       }}
     >
       <DialogTrigger onClick={() => setIsOpen(true)} asChild>
-        <Button variant='ghost' className='gap-1.5' aria-label='fullscreen'>
-          <Expand className='h-4 w-4' />
+        <Button variant="ghost" className="gap-1.5" aria-label="fullscreen">
+          <Expand className="h-4 w-4" />
         </Button>
       </DialogTrigger>
 
-      <DialogContent className='max-w-[21rem] md:max-w-2xl xl:max-w-5xl w-full'>
+      <DialogContent className="max-w-[21rem] md:max-w-2xl xl:max-w-5xl w-full">
         <SimpleBar
           autoHide={false}
-          className='max-h-[calc(100svh-10rem)] max-w-[21rem] md:max-w-2xl xl:max-w-5xl mt-6'
+          className="max-h-[calc(100svh-10rem)] max-w-[21rem] md:max-w-2xl xl:max-w-5xl mt-6"
         >
           <div ref={ref}>
             <Document
               file={fileUrl}
-              className='max-h-full'
+              className="max-h-full"
               loading={
-                <div className='flex justify-center'>
-                  <Loader2 className='h-6 w-6 animate-spin my-24' />
+                <div className="flex justify-center">
+                  <Loader2 className="h-6 w-6 animate-spin my-24" />
                 </div>
               }
               onLoadError={() => {
