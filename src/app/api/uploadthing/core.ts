@@ -1,12 +1,14 @@
 import { db } from "@/db";
+import { createHash } from "crypto";
+import { File } from "@prisma/client";
+import { PLANS } from "@/config/stripe";
 import { pinecone } from "@/lib/pinecone";
+import { getUserSubscriptionPlan } from "@/lib/stripe";
 import { PDFLoader } from "langchain/document_loaders/fs/pdf";
 import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { PineconeStore } from "langchain/vectorstores/pinecone";
 import { createUploadthing, type FileRouter } from "uploadthing/next";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
-import { getUserSubscriptionPlan } from "@/lib/stripe";
-import { PLANS } from "@/config/stripe";
 
 const f = createUploadthing();
 
@@ -35,23 +37,7 @@ const onUploadComplete = async ({
     url: string;
   };
 }) => {
-  const isFileExist = await db.file.findFirst({
-    where: {
-      key: file.key,
-    },
-  });
-
-  if (isFileExist) return;
-
-  const createdFile = await db.file.create({
-    data: {
-      key: file.key,
-      name: file.name,
-      userId: metadata.userId,
-      url: `https://uploadthing-prod.s3.us-west-2.amazonaws.com/${file.key}`,
-      uploadStatus: "PROCESSING",
-    },
-  });
+  let createdFile: File | null = null;
 
   try {
     // to access the PDF file in memory
@@ -59,8 +45,36 @@ const onUploadComplete = async ({
       `https://uploadthing-prod.s3.us-west-2.amazonaws.com/${file.key}`
     );
 
-    // we need the PDF as blob to be able to index it
-    const blob = await response.blob();
+    // get raw binary data of the file as ArrayBuffer
+    const arrayBuffer = await response.arrayBuffer();
+
+    // convert ArrayBuffer to Buffer
+    const buffer = Buffer.from(arrayBuffer);
+
+    // calculate the SHA-256 hash
+    const fileHash = createHash("sha256").update(buffer).digest("hex");
+
+    const isFileExist = await db.file.findFirst({
+      where: {
+        hash: fileHash,
+      },
+    });
+
+    if (isFileExist) return { duplicate: true };
+
+    createdFile = await db.file.create({
+      data: {
+        key: file.key,
+        name: file.name,
+        hash: fileHash,
+        userId: metadata.userId,
+        url: `https://uploadthing-prod.s3.us-west-2.amazonaws.com/${file.key}`,
+        uploadStatus: "PROCESSING",
+      },
+    });
+
+    // convert ArrayBuffer to Blob
+    const blob = new Blob([arrayBuffer]);
 
     // loading the PDF into memory
     const loader = new PDFLoader(blob);
@@ -114,14 +128,15 @@ const onUploadComplete = async ({
       },
     });
   } catch (error) {
-    await db.file.update({
-      data: {
-        uploadStatus: "FAILED",
-      },
-      where: {
-        id: createdFile.id,
-      },
-    });
+    createdFile &&
+      (await db.file.update({
+        data: {
+          uploadStatus: "FAILED",
+        },
+        where: {
+          id: createdFile.id,
+        },
+      }));
   }
 };
 
