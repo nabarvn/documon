@@ -8,6 +8,7 @@ import {
   ArrowRight,
   CircleDollarSign,
   CreditCard,
+  Gem,
   Github,
   LayoutDashboard,
   LogIn,
@@ -15,7 +16,12 @@ import {
   Menu,
 } from "lucide-react";
 
-const MobileSlideover = ({ isAuth }: { isAuth: boolean }) => {
+interface MobileSlideoverProps {
+  isAuth: boolean;
+  isSubscribed: boolean;
+}
+
+const MobileSlideover = ({ isAuth, isSubscribed }: MobileSlideoverProps) => {
   const menuRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
@@ -49,50 +55,50 @@ const MobileSlideover = ({ isAuth }: { isAuth: boolean }) => {
 
   return (
     <>
-      <div ref={menuRef} className='sm:hidden'>
+      <div ref={menuRef} className="sm:hidden">
         <Menu
           onClick={toggleIsOpen}
-          className='relative z-40 h-5 w-5 text-zinc-700'
+          className="relative z-40 h-5 w-5 text-zinc-700"
         />
 
         {isOpen ? (
-          <div className='fixed animate-in slide-in-from-top-5 fade-in-20 inset-0 z-30 w-full'>
-            <ul className='absolute bg-white border-b border-zinc-200 shadow-xl grid w-full gap-3 px-10 pt-20 pb-8'>
+          <div className="fixed animate-in slide-in-from-top-5 fade-in-20 inset-0 z-30 w-full">
+            <ul className="absolute bg-white border-b border-zinc-200 shadow-xl grid w-full gap-3 px-10 pt-20 pb-8">
               {!isAuth ? (
                 <>
                   <li>
                     <Link
-                      href='/sign-up'
+                      href="/sign-up"
                       onClick={() => setIsOpen(false)}
-                      className='flex items-center w-full font-semibold text-green-600'
+                      className="flex items-center w-full font-semibold text-green-600"
                     >
                       Get started
-                      <ArrowRight className='h-4 w-4 ml-2' />
+                      <ArrowRight className="h-4 w-4 ml-2" />
                     </Link>
                   </li>
 
-                  <li className='h-px w-full bg-gray-300' />
+                  <li className="h-px w-full bg-gray-300" />
 
                   <li>
                     <Link
-                      href='/sign-in'
+                      href="/sign-in"
                       onClick={() => setIsOpen(false)}
-                      className='flex items-center w-full font-semibold'
+                      className="flex items-center w-full font-semibold"
                     >
-                      <LogIn className='h-4 w-4 mr-2' />
+                      <LogIn className="h-4 w-4 mr-2" />
                       Sign in
                     </Link>
                   </li>
 
-                  <li className='h-px w-full bg-gray-300' />
+                  <li className="h-px w-full bg-gray-300" />
 
                   <li>
                     <Link
-                      href='/pricing'
+                      href="/pricing"
                       onClick={() => setIsOpen(false)}
-                      className='flex items-center w-full font-semibold'
+                      className="flex items-center w-full font-semibold"
                     >
-                      <CircleDollarSign className='h-4 w-4 mr-2' />
+                      <CircleDollarSign className="h-4 w-4 mr-2" />
                       Pricing
                     </Link>
                   </li>
@@ -101,51 +107,62 @@ const MobileSlideover = ({ isAuth }: { isAuth: boolean }) => {
                 <>
                   <li>
                     <Link
-                      href='/dashboard'
+                      href="/dashboard"
                       onClick={() => setIsOpen(false)}
-                      className='flex items-center w-full font-semibold'
+                      className="flex items-center w-full font-semibold"
                     >
-                      <LayoutDashboard className='h-4 w-4 mr-2' />
+                      <LayoutDashboard className="h-4 w-4 mr-2" />
                       Dashboard
                     </Link>
                   </li>
 
-                  <li className='h-px w-full bg-gray-300' />
+                  <li className="h-px w-full bg-gray-300" />
 
                   <li>
-                    <Link
-                      href='/dashboard/billing'
-                      onClick={() => setIsOpen(false)}
-                      className='flex items-center w-full font-semibold'
-                    >
-                      <CreditCard className='h-4 w-4 mr-2' />
-                      Manage Subscription
-                    </Link>
+                    {isSubscribed ? (
+                      <Link
+                        href="/dashboard/billing"
+                        onClick={() => setIsOpen(false)}
+                        className="flex items-center w-full font-semibold"
+                      >
+                        <CreditCard className="h-4 w-4 mr-2" />
+                        Manage Subscription
+                      </Link>
+                    ) : (
+                      <Link
+                        href="/pricing"
+                        onClick={() => setIsOpen(false)}
+                        className="flex items-center w-full font-semibold"
+                      >
+                        <Gem className="text-blue-600 h-4 w-4 mr-2" />
+                        Upgrade
+                      </Link>
+                    )}
                   </li>
 
-                  <li className='h-px w-full bg-gray-300' />
+                  <li className="h-px w-full bg-gray-300" />
 
                   <li>
                     <Link
-                      target='_blank'
-                      href='https://github.com/nabarvn/documon'
+                      target="_blank"
+                      href="https://github.com/nabarvn/documon"
                       onClick={() => setIsOpen(false)}
-                      className='flex items-center w-full font-semibold'
+                      className="flex items-center w-full font-semibold"
                     >
-                      <Github className='h-4 w-4 mr-2' />
+                      <Github className="h-4 w-4 mr-2" />
                       Star on GitHub
                     </Link>
                   </li>
 
-                  <li className='h-px w-full bg-gray-300' />
+                  <li className="h-px w-full bg-gray-300" />
 
                   <li>
                     <Link
-                      href='/sign-out'
+                      href="/sign-out"
                       onClick={() => setIsOpen(false)}
-                      className='flex items-center w-full font-semibold'
+                      className="flex items-center w-full font-semibold"
                     >
-                      <LogOut className='h-4 w-4 mr-2' />
+                      <LogOut className="h-4 w-4 mr-2" />
                       Sign out
                     </Link>
                   </li>
