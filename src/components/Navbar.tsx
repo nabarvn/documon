@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { getUserSubscriptionPlan } from "@/lib/stripe";
 import { buttonVariants } from "@/components/ui/Button";
 import { MaxWidthWrapper, MobileSlideover, ProfileMenu } from "@/components";
 
@@ -12,21 +13,23 @@ const Navbar = async () => {
   const { getUser } = getKindeServerSession();
   const user = getUser();
 
+  const plan = await getUserSubscriptionPlan();
+
   return (
-    <nav className='sticky h-14 inset-x-0 top-0 z-30 w-full border-b border-gray-200 bg-white/75 backdrop-blur-lg transition-all px-4'>
+    <nav className="sticky h-14 inset-x-0 top-0 z-30 w-full border-b border-gray-200 bg-white/75 backdrop-blur-lg transition-all px-4">
       <MaxWidthWrapper>
-        <div className='flex h-14 items-center justify-between border-b border-zinc-200'>
-          <Link href='/' className='flex z-40 font-semibold'>
+        <div className="flex h-14 items-center justify-between border-b border-zinc-200">
+          <Link href="/" className="flex z-40 font-semibold">
             <span>documon.</span>
           </Link>
 
-          <MobileSlideover isAuth={!!user} />
+          <MobileSlideover isAuth={!!user} isSubscribed={plan.isSubscribed} />
 
-          <div className='hidden items-center space-x-4 sm:flex'>
+          <div className="hidden items-center space-x-4 sm:flex">
             {!user ? (
               <>
                 <Link
-                  href='/pricing'
+                  href="/pricing"
                   className={buttonVariants({
                     size: "sm",
                     variant: "ghost",
@@ -55,7 +58,7 @@ const Navbar = async () => {
             ) : (
               <>
                 <Link
-                  href='/dashboard'
+                  href="/dashboard"
                   className={buttonVariants({
                     size: "sm",
                     variant: "ghost",
