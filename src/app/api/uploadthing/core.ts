@@ -117,6 +117,7 @@ const onUploadComplete = async ({
     await PineconeStore.fromDocuments(pageLevelDocs, embeddings, {
       pineconeIndex,
       namespace: createdFile.id,
+      maxRetries: 3,
     });
 
     await db.file.update({
@@ -129,14 +130,13 @@ const onUploadComplete = async ({
     });
   } catch (error) {
     createdFile &&
-      (await db.file.update({
-        data: {
-          uploadStatus: "FAILED",
-        },
+      (await db.file.delete({
         where: {
           id: createdFile.id,
         },
       }));
+
+    return { error: "PineconeBadRequestError" };
   }
 };
 

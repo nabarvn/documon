@@ -27,6 +27,25 @@ cd documon
 pnpm install
 ```
 
+### Setting up the `.env` file:
+
+```bash
+cp .env.example .env
+```
+
+> [!IMPORTANT]
+> Ensure you populate the variables with your respective API keys and configuration values before proceeding.
+
+### Configuring Prisma:
+
+```bash
+pnpm prisma generate
+```
+
+```bash
+pnpm prisma db push
+```
+
 ### Running the application:
 
 ```bash
