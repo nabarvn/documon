@@ -21,7 +21,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang='en' className='light'>
+    <html lang="en" className="light hydrated">
       <body
         className={cn("font-sans antialiased grainy", inter.className)}
         style={{ height: "100svh" }}
@@ -29,7 +29,7 @@ export default function RootLayout({
         <Providers>
           <Navbar />
 
-          <div className='h-[calc(100svh-3.5rem)] overflow-y-auto scrollbar-thumb-gray scrollbar-thumb-rounded scrollbar-track-gray-lighter scrollbar-w-4 scrolling-touch'>
+          <div className="h-[calc(100svh-3.5rem)] overflow-y-auto scrollbar-thumb-gray scrollbar-thumb-rounded scrollbar-track-gray-lighter scrollbar-w-4 scrolling-touch">
             {children}
           </div>
 
