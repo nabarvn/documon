@@ -57,10 +57,11 @@ const onUploadComplete = async ({
     const isFileExist = await db.file.findFirst({
       where: {
         hash: fileHash,
+        userId: metadata.userId,
       },
     });
 
-    if (isFileExist) return { duplicate: true };
+    if (!!isFileExist) return { duplicate: true };
 
     createdFile = await db.file.create({
       data: {
