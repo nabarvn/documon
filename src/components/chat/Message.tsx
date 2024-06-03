@@ -24,7 +24,7 @@ const Message = forwardRef<HTMLDivElement, MessageProps>(
       >
         <div
           className={cn(
-            "relative flex h-6 w-6 aspect-square items-center justify-center",
+            "relative flex shrink-0 h-6 w-6 aspect-square items-center justify-center",
             {
               "order-2 bg-blue-600 rounded-sm": message.isUserMessage,
               "order-1 bg-zinc-800 rounded-sm": !message.isUserMessage,
@@ -35,12 +35,12 @@ const Message = forwardRef<HTMLDivElement, MessageProps>(
           {message.isUserMessage ? (
             <Icons.user className="fill-zinc-200 text-zinc-200 h-3/4 w-3/4" />
           ) : (
-            <Icons.logo className="fill-zinc-300 shrink-0 h-3/4 w-3/4" />
+            <Icons.logo className="fill-zinc-300 h-3/4 w-3/4" />
           )}
         </div>
 
         <div
-          className={cn("flex flex-col space-y-2 text-base max-w-md mx-2", {
+          className={cn("flex flex-col space-y-2 text-base max-w-max mx-2", {
             "order-1 items-end": message.isUserMessage,
             "order-2 items-start": !message.isUserMessage,
           })}
