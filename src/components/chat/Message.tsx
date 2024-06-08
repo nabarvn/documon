@@ -6,7 +6,7 @@ import { Icons } from "@/components";
 import ReactMarkdown from "react-markdown";
 import rehypeHighlight from "rehype-highlight";
 import { ExtendedMessage } from "@/types/message";
-import { CodeRenderer } from "@/components/chat";
+import { CodeRenderer, LinkRenderer } from "@/components/chat";
 
 interface MessageProps {
   message: ExtendedMessage;
@@ -59,13 +59,14 @@ const Message = forwardRef<HTMLDivElement, MessageProps>(
               <ReactMarkdown
                 rehypePlugins={[[rehypeHighlight], [remarkGfm]]}
                 components={{
-                  code: ({ children, className, node, ...rest }) => {
-                    return (
-                      <CodeRenderer className={className} {...rest}>
-                        {children}
-                      </CodeRenderer>
-                    );
-                  },
+                  code: ({ children, className, node, ...rest }) => (
+                    <CodeRenderer className={className} {...rest}>
+                      {children}
+                    </CodeRenderer>
+                  ),
+                  a: ({ href, children }) => (
+                    <LinkRenderer link={href}>{children}</LinkRenderer>
+                  ),
                 }}
                 className={cn("prose", {
                   "text-zinc-50": message.isUserMessage,
@@ -76,6 +77,7 @@ const Message = forwardRef<HTMLDivElement, MessageProps>(
             ) : (
               message.text
             )}
+
             {message.id !== "loading-message" ? (
               <div
                 className={cn("text-xs select-none w-full text-right mt-2", {
