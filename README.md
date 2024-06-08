@@ -52,7 +52,7 @@ pnpm prisma db push
 pnpm dev
 ```
 
-## Tech Stack:
+## Tech Stack
 
 - **Language**: [TypeScript](https://www.typescriptlang.org)
 - **Framework**: [Next.js](https://nextjs.org)
