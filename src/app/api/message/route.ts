@@ -8,6 +8,8 @@ import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { PineconeStore } from "langchain/vectorstores/pinecone";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 
+export const maxDuration = 60;
+
 export const POST = async (req: NextRequest) => {
   // endpoint for asking questions to a PDF file
 
