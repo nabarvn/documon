@@ -29,20 +29,21 @@ const PdfFileCard = ({ file }: PdfFileCardProps) => {
     string | null
   >(null);
 
-  const { mutate: deleteFile } = trpc.deleteFile.useMutation({
-    onSuccess: () => {
-      // force refresh
-      utils.getUserFiles.invalidate();
-    },
+  const { mutate: deleteFile, isLoading: isDeleting } =
+    trpc.deleteFile.useMutation({
+      onSuccess: () => {
+        // force refresh
+        utils.getUserFiles.invalidate();
+      },
 
-    onMutate({ id }) {
-      setCurrentlyDeletingFile(id);
-    },
+      onMutate({ id }) {
+        setCurrentlyDeletingFile(id);
+      },
 
-    onSettled() {
-      setCurrentlyDeletingFile(null);
-    },
-  });
+      onSettled() {
+        setCurrentlyDeletingFile(null);
+      },
+    });
 
   return (
     <li className="col-span-1 divide-y divide-gray-200 rounded-lg bg-white shadow transition hover:shadow-lg">
@@ -79,6 +80,7 @@ const PdfFileCard = ({ file }: PdfFileCardProps) => {
         <Button
           size="sm"
           variant="ghost"
+          disabled={isDeleting}
           onClick={() => deleteFile({ id: file.id })}
           className="flex items-center text-destructive-foreground hover:text-destructive-foreground hover:bg-destructive gap-1 w-full"
         >
