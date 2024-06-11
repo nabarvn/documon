@@ -22,11 +22,11 @@ const ChatInput = ({ isDisabled }: ChatInputProps) => {
   };
 
   return (
-    <div className='absolute bottom-0 left-0 w-full'>
-      <form className='flex flex-row gap-3 mx-2 md:mx-4 md:last:mb-6 lg:mx-auto lg:max-w-2xl xl:max-w-3xl'>
-        <div className='relative flex h-full flex-1 items-stretch md:flex-col'>
-          <div className='relative flex flex-col w-full flex-grow p-4'>
-            <div className='relative'>
+    <div className="absolute bottom-0 left-0 bg-zinc-50 w-full">
+      <form className="flex flex-row gap-3 mx-2 md:mx-4 lg:mx-auto lg:max-w-2xl xl:max-w-3xl">
+        <div className="relative flex h-full flex-1 items-stretch md:flex-col">
+          <div className="relative flex flex-col w-full flex-grow p-4">
+            <div className="relative">
               <Textarea
                 rows={1}
                 maxRows={4}
@@ -46,14 +46,14 @@ const ChatInput = ({ isDisabled }: ChatInputProps) => {
                     focusTextarea();
                   }
                 }}
-                placeholder='Enter your question...'
-                className='resize-none text-base chat-scrollbar-thumb-gray chat-scrollbar-thumb-rounded chat-scrollbar-track-gray-lighter scrollbar-w-2 scrolling-touch pr-12 py-3'
+                placeholder="Enter your question..."
+                className="resize-none text-base chat-scrollbar-thumb-gray chat-scrollbar-thumb-rounded chat-scrollbar-track-gray-lighter scrollbar-w-2 scrolling-touch pr-14 py-3"
               />
 
               <Button
-                size='sm'
-                type='submit'
-                aria-label='send message'
+                size="sm"
+                type="submit"
+                aria-label="send message"
                 disabled={isLoading || isDisabled}
                 onClick={(e) => {
                   e.preventDefault();
@@ -63,9 +63,9 @@ const ChatInput = ({ isDisabled }: ChatInputProps) => {
                     focusTextarea();
                   }
                 }}
-                className='absolute bottom-[7px] right-[7px]'
+                className="absolute bottom-[7px] right-[7px]"
               >
-                <Send className='h-4 w-4' />
+                <Send className="h-4 w-4" />
               </Button>
             </div>
           </div>
