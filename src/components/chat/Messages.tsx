@@ -64,7 +64,7 @@ const Messages = ({ fileId }: MessagesProps) => {
   }, [entry, fetchNextPage]);
 
   return (
-    <div className="flex max-h-[calc(100svh-3.5rem-7rem)] border-zinc-200 flex-1 flex-col-reverse gap-4 overflow-y-auto p-3 chat-scrollbar-thumb-gray chat-scrollbar-thumb-rounded chat-scrollbar-track-gray-lighter scrollbar-w-2 scrolling-touch">
+    <div className="flex max-h-[calc(100svh-3.5rem-5.18rem)] border-zinc-200 flex-1 flex-col-reverse gap-4 overflow-y-auto p-3 chat-scrollbar-thumb-gray chat-scrollbar-thumb-rounded chat-scrollbar-track-gray-lighter scrollbar-w-2 scrolling-touch">
       {combinedMessages && combinedMessages.length > 0 ? (
         combinedMessages.map((message, i) => {
           const isNextMessageSameOrigin =
