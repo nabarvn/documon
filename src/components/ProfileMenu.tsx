@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Image from "next/image";
 import { Icons } from "@/components";
 import { Button } from "@/components/ui";
 import { getUserSubscriptionPlan } from "@/lib/stripe";
@@ -18,10 +17,9 @@ import {
 interface ProfileMenuProps {
   name: string;
   email: string | undefined;
-  imageUrl: string;
 }
 
-const ProfileMenu = async ({ name, email, imageUrl }: ProfileMenuProps) => {
+const ProfileMenu = async ({ name, email }: ProfileMenuProps) => {
   const subscriptionPlan = await getUserSubscriptionPlan();
 
   return (
@@ -29,21 +27,10 @@ const ProfileMenu = async ({ name, email, imageUrl }: ProfileMenuProps) => {
       <DropdownMenuTrigger asChild className="overflow-visible">
         <Button className="rounded-full h-8 w-8 aspect-square bg-slate-400">
           <Avatar className="relative h-8 w-8">
-            {imageUrl ? (
-              <div className="relative aspect-square h-full w-full">
-                <Image
-                  fill
-                  src={imageUrl}
-                  alt="profile picture"
-                  referrerPolicy="no-referrer"
-                />
-              </div>
-            ) : (
-              <AvatarFallback>
-                <span className="sr-only">{name}</span>
-                <Icons.user className="h-4 w-4 text-zinc-900" />
-              </AvatarFallback>
-            )}
+            <AvatarFallback>
+              <span className="sr-only">{name}</span>
+              <Icons.user className="h-4 w-4 text-zinc-900" />
+            </AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
