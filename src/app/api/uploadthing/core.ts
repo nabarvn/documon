@@ -41,9 +41,9 @@ const onUploadComplete = async ({
 
   try {
     // to access the PDF file in memory
-    const response = await fetch(
-      `https://uploadthing-prod.s3.us-west-2.amazonaws.com/${file.key}`
-    );
+    const response = await fetch(file.url);
+
+    if (!response.ok) return { error: "UploadThingError" };
 
     // get raw binary data of the file as ArrayBuffer
     const arrayBuffer = await response.arrayBuffer();
@@ -69,13 +69,15 @@ const onUploadComplete = async ({
         name: file.name,
         hash: fileHash,
         userId: metadata.userId,
-        url: `https://uploadthing-prod.s3.us-west-2.amazonaws.com/${file.key}`,
+        url: file.url,
         uploadStatus: "PROCESSING",
       },
     });
 
     // convert ArrayBuffer to Blob
-    const blob = new Blob([arrayBuffer]);
+    const blob = new Blob([arrayBuffer], {
+      type: "application/pdf",
+    });
 
     // loading the PDF into memory
     const loader = new PDFLoader(blob);
