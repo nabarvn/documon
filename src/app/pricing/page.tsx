@@ -85,9 +85,11 @@ const PricingPage = async () => {
     <>
       <MaxWidthWrapper className="text-center max-w-5xl mb-8 mt-24">
         <div className="mx-auto sm:max-w-lg mb-10">
-          <h1 className="text-6xl font-bold sm:text-7xl">Pricing</h1>
+          <h1 className="text-6xl font-bold dark:text-zinc-900 sm:text-7xl">
+            Pricing
+          </h1>
 
-          <p className="text-gray-600 sm:text-lg mt-5 mx-5 md:mx-0">
+          <p className="text-gray-600 dark:text-zinc-800 sm:text-lg mt-5 mx-5 md:mx-0">
             Whether you&apos;re just trying out our service or need more,
             we&apos;ve got you covered.
           </p>
