@@ -59,7 +59,7 @@ const Message = forwardRef<HTMLDivElement, MessageProps>(
               <ReactMarkdown
                 rehypePlugins={[[rehypeHighlight], [remarkGfm]]}
                 components={{
-                  code: ({ children, className, node, ...rest }) => (
+                  code: ({ children, className, node, ref, ...rest }) => (
                     <CodeRenderer className={className} {...rest}>
                       {children}
                     </CodeRenderer>
