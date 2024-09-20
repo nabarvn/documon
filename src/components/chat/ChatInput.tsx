@@ -31,7 +31,7 @@ const ChatInput = ({ isDisabled }: ChatInputProps) => {
                 rows={1}
                 maxRows={4}
                 autoFocus
-                ref={textareaRef}
+                ref={textareaRef as never}
                 disabled={isLoading || isDisabled}
                 onChange={handleInputChange}
                 value={message}
