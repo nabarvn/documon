@@ -2,10 +2,10 @@ import { db } from "@/db";
 import { openai } from "@/lib/openai";
 import { NextRequest } from "next/server";
 import { pinecone } from "@/lib/pinecone";
+import { OpenAIEmbeddings } from "@langchain/openai";
+import { PineconeStore } from "@langchain/pinecone";
 import { OpenAIStream, StreamingTextResponse } from "ai";
 import { MessageValidator } from "@/lib/validators/message";
-import { OpenAIEmbeddings } from "langchain/embeddings/openai";
-import { PineconeStore } from "langchain/vectorstores/pinecone";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 
 export const maxDuration = 60;
