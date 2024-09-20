@@ -1,7 +1,8 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, PartyPopper } from "lucide-react";
+import { cn } from "@/lib/utils";
 import { MaxWidthWrapper } from "@/components";
+import { ArrowRight, PartyPopper } from "lucide-react";
 import { buttonVariants } from "@/components/ui/Button";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 
@@ -20,24 +21,27 @@ export default function Home() {
           </p>
         </div>
 
-        <h1 className="max-w-4xl text-5xl font-bold md:text-6xl lg:text-7xl">
+        <h1 className="max-w-4xl text-5xl font-bold dark:text-zinc-900 md:text-6xl lg:text-7xl">
           Chat with your <span className="text-blue-600">documents</span> in
           seconds.
         </h1>
 
-        <p className="max-w-prose text-zinc-700 sm:text-lg mt-5">
+        <p className="max-w-prose text-zinc-700 dark:text-zinc-800 sm:text-lg mt-5">
           Documon allows you to have conversations with any PDF document. Simply
           upload your file and start asking questions right away.
         </p>
 
         <Link
           href={user ? "/dashboard" : "/sign-up"}
-          className={buttonVariants({
-            size: "lg",
-            className: "mt-5",
-          })}
+          className={cn(
+            buttonVariants({
+              size: "lg",
+            }),
+            "group text-base mt-5"
+          )}
         >
-          Get started <ArrowRight className="h-5 w-5 ml-2" />
+          Get started
+          <ArrowRight className="h-5 w-5 transition duration-200 group-hover:translate-x-0.5 ml-2" />
         </Link>
       </MaxWidthWrapper>
 
@@ -93,11 +97,11 @@ export default function Home() {
       <div className="mx-auto max-w-5xl mb-32 sm:mt-56 mt-32">
         <div className="mb-12 px-5 lg:px-8">
           <div className="mx-auto max-w-2xl sm:text-center">
-            <h2 className="font-bold text-4xl text-gray-900 sm:text-5xl mt-2">
+            <h2 className="font-bold text-4xl text-gray-900 dark:text-zinc-900 sm:text-5xl mt-2">
               Start chatting in seconds.
             </h2>
 
-            <p className="text-lg text-gray-600 mt-4">
+            <p className="text-lg text-gray-600 dark:text-zinc-800 mt-4">
               Interacting with your PDF files has never been easier.
             </p>
           </div>
@@ -109,11 +113,11 @@ export default function Home() {
             <div className="flex flex-col space-y-2 border-l-4 border-zinc-300 md:border-l-0 md:border-t-2 py-2 pl-4 md:pb-0 md:pl-0 md:pt-4">
               <span className="text-sm font-medium text-blue-600">Step 1</span>
 
-              <span className="text-xl font-semibold">
+              <span className="text-xl font-semibold dark:text-zinc-900">
                 Sign up for an account
               </span>
 
-              <span className="text-zinc-700 mt-2">
+              <span className="text-zinc-700 dark:text-zinc-800 mt-2">
                 Either starting out with a free plan or choose our{" "}
                 <Link
                   href="/pricing"
@@ -130,11 +134,11 @@ export default function Home() {
             <div className="flex flex-col space-y-2 border-l-4 border-zinc-300 md:border-l-0 md:border-t-2 py-2 pl-4 md:pb-0 md:pl-0 md:pt-4">
               <span className="text-sm font-medium text-blue-600">Step 2</span>
 
-              <span className="text-xl font-semibold">
+              <span className="text-xl font-semibold dark:text-zinc-900">
                 Upload your PDF file
               </span>
 
-              <span className="text-zinc-700 mt-2">
+              <span className="text-zinc-700 dark:text-zinc-800 mt-2">
                 We&apos;ll process your file and make it ready for you to chat
                 with.
               </span>
@@ -145,11 +149,11 @@ export default function Home() {
             <div className="flex flex-col space-y-2 border-l-4 border-zinc-300 md:border-l-0 md:border-t-2 py-2 pl-4 md:pb-0 md:pl-0 md:pt-4">
               <span className="text-sm font-medium text-blue-600">Step 3</span>
 
-              <span className="text-xl font-semibold">
+              <span className="text-xl font-semibold dark:text-zinc-900">
                 Start asking questions
               </span>
 
-              <span className="text-zinc-700 mt-2">
+              <span className="text-zinc-700 dark:text-zinc-800 mt-2">
                 It&apos;s that simple. Try out Documon today - it really takes
                 less than a minute.
               </span>
