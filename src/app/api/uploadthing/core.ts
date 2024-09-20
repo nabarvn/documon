@@ -4,10 +4,10 @@ import { File } from "@prisma/client";
 import { PLANS } from "@/config/stripe";
 import { pinecone } from "@/lib/pinecone";
 import { getUserSubscriptionPlan } from "@/lib/stripe";
-import { PDFLoader } from "langchain/document_loaders/fs/pdf";
-import { OpenAIEmbeddings } from "langchain/embeddings/openai";
-import { PineconeStore } from "langchain/vectorstores/pinecone";
-import { createUploadthing, type FileRouter } from "uploadthing/next";
+import { OpenAIEmbeddings } from "@langchain/openai";
+import { PineconeStore } from "@langchain/pinecone";
+import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf";
+import { createUploadthing, type FileRouter } from "uploadthing/server";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 
 const f = createUploadthing();
