@@ -8,6 +8,7 @@ import { useToast } from "@/components/ui/UseToast";
 import { Button, Progress } from "@/components/ui";
 import { useUploadThing } from "@/lib/uploadthing";
 import { Cloud, File, Loader2 } from "lucide-react";
+import { MAX_QUERY_COUNT } from "@/config/max-query";
 import { Dispatch, SetStateAction, useState } from "react";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/Dialog";
 
@@ -39,7 +40,7 @@ const UploadDropzone = ({
     onSuccess: (file) => {
       router.push(`/dashboard/${file.id}`);
     },
-    retry: true,
+    retry: MAX_QUERY_COUNT,
     retryDelay: 500,
   });
 
