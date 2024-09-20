@@ -71,6 +71,7 @@ export const appRouter = router({
       success_url: billingUrl,
       cancel_url: billingUrl,
       payment_method_types: ["card", "paypal"],
+      customer_email: dbUser.email,
       mode: "subscription",
       billing_address_collection: "auto",
       line_items: [
