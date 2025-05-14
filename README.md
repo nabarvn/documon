@@ -7,7 +7,7 @@ A web application that harnesses the power of artificial intelligence to transfo
 <img src="./screenshot.png">
 
 <p align="center">
-  <a href="https://documon.nabarun.ai"><strong>View Project »</strong></a>
+  <a href="https://documon.nabarun.app"><strong>View Project »</strong></a>
 </p>
 
 ## Running Locally
