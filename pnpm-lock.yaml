@@ -16,16 +16,16 @@ importers:
         version: 1.8.25(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       '@langchain/community':
         specifier: ^0.3.1
-        version: 0.3.1(@langchain/core@0.3.3(openai@4.20.1(encoding@0.1.13)))(@pinecone-database/pinecone@3.0.3)(@upstash/ratelimit@1.0.0)(@upstash/redis@1.27.1)(crypto-js@4.2.0)(encoding@0.1.13)(ignore@5.2.4)(lodash@4.17.21)(openai@4.20.1(encoding@0.1.13))(pdf-parse@1.1.1)
+        version: 0.3.1(@langchain/core@0.3.3(openai@4.62.1(encoding@0.1.13)(zod@3.22.4)))(@pinecone-database/pinecone@3.0.3)(@upstash/ratelimit@1.0.0)(@upstash/redis@1.27.1)(crypto-js@4.2.0)(encoding@0.1.13)(ignore@5.2.4)(lodash@4.17.21)(openai@4.62.1(encoding@0.1.13)(zod@3.22.4))(pdf-parse@1.1.1)
       '@langchain/core':
         specifier: ^0.3.3
-        version: 0.3.3(openai@4.20.1(encoding@0.1.13))
+        version: 0.3.3(openai@4.62.1(encoding@0.1.13)(zod@3.22.4))
       '@langchain/openai':
         specifier: ^0.3.0
-        version: 0.3.0(@langchain/core@0.3.3(openai@4.20.1(encoding@0.1.13)))(encoding@0.1.13)
+        version: 0.3.0(@langchain/core@0.3.3(openai@4.62.1(encoding@0.1.13)(zod@3.22.4)))(encoding@0.1.13)
       '@langchain/pinecone':
         specifier: ^0.1.0
-        version: 0.1.0(@langchain/core@0.3.3(openai@4.20.1(encoding@0.1.13)))
+        version: 0.1.0(@langchain/core@0.3.3(openai@4.62.1(encoding@0.1.13)(zod@3.22.4)))
       '@mantine/hooks':
         specifier: ^7.3.1
         version: 7.3.1(react@18.2.0)
@@ -102,8 +102,8 @@ importers:
         specifier: 14.0.0
         version: 14.0.0(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
       openai:
-        specifier: 4.20.1
-        version: 4.20.1(encoding@0.1.13)
+        specifier: ^4.20.1
+        version: 4.62.1(encoding@0.1.13)(zod@3.22.4)
       pdf-parse:
         specifier: ^1.1.1
         version: 1.1.1
@@ -1550,9 +1550,6 @@ packages:
   balanced-match@1.0.2:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
 
-  base-64@0.1.0:
-    resolution: {integrity: sha512-Y5gU45svrR5tI2Vt/X9GPd3L0HNIKzGu202EjxrXMpuc2V2CiKgemAbUUsqYmZJvPtCXoUKjNZwBJzsNScUbXA==}
-
   base64-js@1.5.1:
     resolution: {integrity: sha512-AKpaYlHn8t4SVbOHCy+b5+KKgvR4vrsD8vbvrbiQJps7fKDTkjkDry6ji0rUJjC0kzbNePLwzxq8iypo41qeWA==}
 
@@ -1620,9 +1617,6 @@ packages:
   character-reference-invalid@2.0.1:
     resolution: {integrity: sha512-iBZ4F4wRbyORVsu0jPV7gXkOsGYjGHPmAyv+HiHG8gi5PtC9KI2j1+v8/tlibRvjoWX027ypmG/n0HtO5t7unw==}
 
-  charenc@0.0.2:
-    resolution: {integrity: sha512-yrLQ/yVUFXkzg7EDQsPieE/53+0RlaWTs+wBrvW36cyilJ2SaDWfl4Yj7MtLTXleV9uEKefbAGUPv2/iWSooRA==}
-
   chokidar@3.5.3:
     resolution: {integrity: sha512-Dr3sfKRP6oTcjf2JmUmFJfeVMvXBdegxB0iVQ5eb2V10uFJUCAS8OByZdVAyVb8xXNz3GjjTgj9kLWsZTqE6kw==}
     engines: {node: '>= 8.10.0'}
@@ -1683,9 +1677,6 @@ packages:
   cross-spawn@7.0.3:
     resolution: {integrity: sha512-iRDPJKUPVEND7dHPO8rkbOnPpyDygcDFtWjpeWNCgy8WP2rXcxXL8TskReQl6OrB2G7+UJrags1q15Fudc7G6w==}
     engines: {node: '>= 8'}
-
-  crypt@0.0.2:
-    resolution: {integrity: sha512-mCxBlsHFYh9C+HVpiEacem8FEBnMXgU9gy4zmNC+SXAZNB/1idgp/aulFJ4FgCi7GPEVbfyng092GqL2k2rmow==}
 
   crypto-js@4.2.0:
     resolution: {integrity: sha512-KALDyEYgpY+Rlob/iriUtjV6d5Eq+Y191A5g4UqLAi8CyGP9N1+FdVbkc1SxKc2r4YAYqG8JzO2KGL+AizD70Q==}
@@ -1771,9 +1762,6 @@ packages:
 
   didyoumean@1.2.2:
     resolution: {integrity: sha512-gxtyfqMg7GKyhQmb056K7M3xszy/myH8w+B4RT+QXBQsvAOdc3XymqDDPHx1BgPgsdAA5SIifona89YtRATDzw==}
-
-  digest-fetch@1.3.0:
-    resolution: {integrity: sha512-CGJuv6iKNM7QyZlM2T3sPAdZWd/p9zQiRNS9G+9COUCwzWFTs0Xp8NF5iePx7wtvhDykReiRRrSeNb4oMmB8lA==}
 
   dir-glob@3.0.1:
     resolution: {integrity: sha512-WkrWp9GR4KXfKGYzOLmTuGVi1UWFfws377n9cc55/tb6DuqyF6pcQ5AbiHEshaDpY9v6oaSr2XCDidGmMwdzIA==}
@@ -2234,9 +2222,6 @@ packages:
     resolution: {integrity: sha512-gDYaKHJmnj4aWxyj6YHyXVpdQawtVLHU5cb+eztPGczf6cjuTdwve5ZIEfgXqH4e57An1D1AKf8CZ3kYrQRqYA==}
     engines: {node: '>= 0.4'}
 
-  is-buffer@1.1.6:
-    resolution: {integrity: sha512-NcdALwpXkTm5Zvvbk7owOUSvVvBKDgKP5/ewfXEznmQFfs4ZRmanOeKBTjRVjka3QFoN6XJ+9F3USqfHqTaU5w==}
-
   is-callable@1.2.7:
     resolution: {integrity: sha512-1BC0BVFhS/p0qtw6enp8e+8OD0UrK0oFLztSjNzhcKA3WDuJxxAPXzPuPtKkjEY9UUoEWlX/8fgKeu2S8i9JTA==}
     engines: {node: '>= 0.4'}
@@ -2511,9 +2496,6 @@ packages:
 
   markdown-table@3.0.3:
     resolution: {integrity: sha512-Z1NL3Tb1M9wH4XESsCDEksWoKTdlUafKc4pt0GRwjUyXaCFZ+dc3g2erqB6zm3szA2IUSi7VnPI+o/9jnxh9hw==}
-
-  md5@2.3.0:
-    resolution: {integrity: sha512-T1GITYmFaKuO91vxyoQMFETst+O71VUPEU3ze5GNzDm0OWdP8v1ziTaAEPUr/3kLsY3Sftgz242A1SetQiDL7g==}
 
   mdast-util-find-and-replace@3.0.1:
     resolution: {integrity: sha512-SG21kZHGC3XRTSUhtofZkBzZTJNM5ecCi0SK2IMKmSXR8vO3peL+kb1O0z7Zl83jKtutG4k5Wv/W7V3/YHvzPA==}
@@ -2820,10 +2802,6 @@ packages:
 
   once@1.4.0:
     resolution: {integrity: sha512-lNaJgI+2Q5URQBkccEKHTQOPaXdUxnZZElQTZY0MFUAuaEqe1E+Nyvgdz/aIyNi6Z9MzO5dv1H8n58/GELp3+w==}
-
-  openai@4.20.1:
-    resolution: {integrity: sha512-Dd3q8EvINfganZFtg6V36HjrMaihqRgIcKiHua4Nq9aw/PxOP48dhbsk8x5klrxajt5Lpnc1KTOG5i1S6BKAJA==}
-    hasBin: true
 
   openai@4.62.1:
     resolution: {integrity: sha512-Aa6i4oBR1tV8E2d2p3MvXg57X98i8gZtHq4bQNX274qLKZVX7PXXq5P1FMonTXOrX3zwvkqN1iNccn3XK3CwVg==}
@@ -3595,10 +3573,6 @@ packages:
     resolution: {integrity: sha512-Lcvm7MGST/4fup+ifyKi2hjyIAwcdI4HRgtvTpIUxBRhB+RFtUh8XtDOxUfctVCnhVi+QQj49i91OyvzkJl6cg==}
     engines: {node: '>=10.13.0'}
 
-  web-streams-polyfill@3.3.3:
-    resolution: {integrity: sha512-d2JWLCivmZYTSIoge9MsgFCZrt571BikcWGYkjC1khllbTeDlGqZ2D8vD8E/lJa8WGWbb7Plm8/XJYV7IJHZZw==}
-    engines: {node: '>= 8'}
-
   web-streams-polyfill@4.0.0-beta.3:
     resolution: {integrity: sha512-QW95TCTaHmsYfHDybGMwO5IJIM93I/6vTRk+daHTWFPhwh+C8Cg7j7XyKrwrj8Ib6vYXe0ocYNrmzY4xAAN6ug==}
     engines: {node: '>= 14'}
@@ -3805,16 +3779,16 @@ snapshots:
     dependencies:
       uncrypto: 0.1.3
 
-  '@langchain/community@0.3.1(@langchain/core@0.3.3(openai@4.20.1(encoding@0.1.13)))(@pinecone-database/pinecone@3.0.3)(@upstash/ratelimit@1.0.0)(@upstash/redis@1.27.1)(crypto-js@4.2.0)(encoding@0.1.13)(ignore@5.2.4)(lodash@4.17.21)(openai@4.20.1(encoding@0.1.13))(pdf-parse@1.1.1)':
+  '@langchain/community@0.3.1(@langchain/core@0.3.3(openai@4.62.1(encoding@0.1.13)(zod@3.22.4)))(@pinecone-database/pinecone@3.0.3)(@upstash/ratelimit@1.0.0)(@upstash/redis@1.27.1)(crypto-js@4.2.0)(encoding@0.1.13)(ignore@5.2.4)(lodash@4.17.21)(openai@4.62.1(encoding@0.1.13)(zod@3.22.4))(pdf-parse@1.1.1)':
     dependencies:
-      '@langchain/core': 0.3.3(openai@4.20.1(encoding@0.1.13))
-      '@langchain/openai': 0.3.0(@langchain/core@0.3.3(openai@4.20.1(encoding@0.1.13)))(encoding@0.1.13)
+      '@langchain/core': 0.3.3(openai@4.62.1(encoding@0.1.13)(zod@3.22.4))
+      '@langchain/openai': 0.3.0(@langchain/core@0.3.3(openai@4.62.1(encoding@0.1.13)(zod@3.22.4)))(encoding@0.1.13)
       binary-extensions: 2.2.0
       expr-eval: 2.0.2
       flat: 5.0.2
       js-yaml: 4.1.0
-      langchain: 0.3.2(@langchain/core@0.3.3(openai@4.20.1(encoding@0.1.13)))(encoding@0.1.13)(openai@4.20.1(encoding@0.1.13))
-      langsmith: 0.1.59(openai@4.20.1(encoding@0.1.13))
+      langchain: 0.3.2(@langchain/core@0.3.3(openai@4.62.1(encoding@0.1.13)(zod@3.22.4)))(encoding@0.1.13)(openai@4.62.1(encoding@0.1.13)(zod@3.22.4))
+      langsmith: 0.1.59(openai@4.62.1(encoding@0.1.13)(zod@3.22.4))
       uuid: 10.0.0
       zod: 3.22.4
       zod-to-json-schema: 3.23.3(zod@3.22.4)
@@ -3841,13 +3815,13 @@ snapshots:
       - openai
       - peggy
 
-  '@langchain/core@0.3.3(openai@4.20.1(encoding@0.1.13))':
+  '@langchain/core@0.3.3(openai@4.62.1(encoding@0.1.13)(zod@3.22.4))':
     dependencies:
       ansi-styles: 5.2.0
       camelcase: 6.3.0
       decamelize: 1.2.0
       js-tiktoken: 1.0.14
-      langsmith: 0.1.59(openai@4.20.1(encoding@0.1.13))
+      langsmith: 0.1.59(openai@4.62.1(encoding@0.1.13)(zod@3.22.4))
       mustache: 4.2.0
       p-queue: 6.6.2
       p-retry: 4.6.2
@@ -3857,9 +3831,9 @@ snapshots:
     transitivePeerDependencies:
       - openai
 
-  '@langchain/openai@0.3.0(@langchain/core@0.3.3(openai@4.20.1(encoding@0.1.13)))(encoding@0.1.13)':
+  '@langchain/openai@0.3.0(@langchain/core@0.3.3(openai@4.62.1(encoding@0.1.13)(zod@3.22.4)))(encoding@0.1.13)':
     dependencies:
-      '@langchain/core': 0.3.3(openai@4.20.1(encoding@0.1.13))
+      '@langchain/core': 0.3.3(openai@4.62.1(encoding@0.1.13)(zod@3.22.4))
       js-tiktoken: 1.0.14
       openai: 4.62.1(encoding@0.1.13)(zod@3.22.4)
       zod: 3.22.4
@@ -3867,16 +3841,16 @@ snapshots:
     transitivePeerDependencies:
       - encoding
 
-  '@langchain/pinecone@0.1.0(@langchain/core@0.3.3(openai@4.20.1(encoding@0.1.13)))':
+  '@langchain/pinecone@0.1.0(@langchain/core@0.3.3(openai@4.62.1(encoding@0.1.13)(zod@3.22.4)))':
     dependencies:
-      '@langchain/core': 0.3.3(openai@4.20.1(encoding@0.1.13))
+      '@langchain/core': 0.3.3(openai@4.62.1(encoding@0.1.13)(zod@3.22.4))
       '@pinecone-database/pinecone': 3.0.3
       flat: 5.0.2
       uuid: 10.0.0
 
-  '@langchain/textsplitters@0.1.0(@langchain/core@0.3.3(openai@4.20.1(encoding@0.1.13)))':
+  '@langchain/textsplitters@0.1.0(@langchain/core@0.3.3(openai@4.62.1(encoding@0.1.13)(zod@3.22.4)))':
     dependencies:
-      '@langchain/core': 0.3.3(openai@4.20.1(encoding@0.1.13))
+      '@langchain/core': 0.3.3(openai@4.62.1(encoding@0.1.13)(zod@3.22.4))
       js-tiktoken: 1.0.14
 
   '@mantine/hooks@7.3.1(react@18.2.0)':
@@ -4763,8 +4737,6 @@ snapshots:
 
   balanced-match@1.0.2: {}
 
-  base-64@0.1.0: {}
-
   base64-js@1.5.1: {}
 
   binary-extensions@2.2.0: {}
@@ -4830,8 +4802,6 @@ snapshots:
 
   character-reference-invalid@2.0.1: {}
 
-  charenc@0.0.2: {}
-
   chokidar@3.5.3:
     dependencies:
       anymatch: 3.1.3
@@ -4894,8 +4864,6 @@ snapshots:
       path-key: 3.1.1
       shebang-command: 2.0.0
       which: 2.0.2
-
-  crypt@0.0.2: {}
 
   crypto-js@4.2.0: {}
 
@@ -4964,11 +4932,6 @@ snapshots:
       dequal: 2.0.3
 
   didyoumean@1.2.2: {}
-
-  digest-fetch@1.3.0:
-    dependencies:
-      base-64: 0.1.0
-      md5: 2.3.0
 
   dir-glob@3.0.1:
     dependencies:
@@ -5620,8 +5583,6 @@ snapshots:
       call-bind: 1.0.5
       has-tostringtag: 1.0.0
 
-  is-buffer@1.1.6: {}
-
   is-callable@1.2.7: {}
 
   is-core-module@2.13.1:
@@ -5762,15 +5723,15 @@ snapshots:
     dependencies:
       json-buffer: 3.0.1
 
-  langchain@0.3.2(@langchain/core@0.3.3(openai@4.20.1(encoding@0.1.13)))(encoding@0.1.13)(openai@4.20.1(encoding@0.1.13)):
+  langchain@0.3.2(@langchain/core@0.3.3(openai@4.62.1(encoding@0.1.13)(zod@3.22.4)))(encoding@0.1.13)(openai@4.62.1(encoding@0.1.13)(zod@3.22.4)):
     dependencies:
-      '@langchain/core': 0.3.3(openai@4.20.1(encoding@0.1.13))
-      '@langchain/openai': 0.3.0(@langchain/core@0.3.3(openai@4.20.1(encoding@0.1.13)))(encoding@0.1.13)
-      '@langchain/textsplitters': 0.1.0(@langchain/core@0.3.3(openai@4.20.1(encoding@0.1.13)))
+      '@langchain/core': 0.3.3(openai@4.62.1(encoding@0.1.13)(zod@3.22.4))
+      '@langchain/openai': 0.3.0(@langchain/core@0.3.3(openai@4.62.1(encoding@0.1.13)(zod@3.22.4)))(encoding@0.1.13)
+      '@langchain/textsplitters': 0.1.0(@langchain/core@0.3.3(openai@4.62.1(encoding@0.1.13)(zod@3.22.4)))
       js-tiktoken: 1.0.14
       js-yaml: 4.1.0
       jsonpointer: 5.0.1
-      langsmith: 0.1.59(openai@4.20.1(encoding@0.1.13))
+      langsmith: 0.1.59(openai@4.62.1(encoding@0.1.13)(zod@3.22.4))
       openapi-types: 12.1.3
       p-retry: 4.6.2
       uuid: 10.0.0
@@ -5781,7 +5742,7 @@ snapshots:
       - encoding
       - openai
 
-  langsmith@0.1.59(openai@4.20.1(encoding@0.1.13)):
+  langsmith@0.1.59(openai@4.62.1(encoding@0.1.13)(zod@3.22.4)):
     dependencies:
       '@types/uuid': 10.0.0
       commander: 10.0.1
@@ -5790,7 +5751,7 @@ snapshots:
       semver: 7.6.3
       uuid: 10.0.0
     optionalDependencies:
-      openai: 4.20.1(encoding@0.1.13)
+      openai: 4.62.1(encoding@0.1.13)(zod@3.22.4)
 
   language-subtag-registry@0.3.22: {}
 
@@ -5857,12 +5818,6 @@ snapshots:
   make-event-props@1.6.2: {}
 
   markdown-table@3.0.3: {}
-
-  md5@2.3.0:
-    dependencies:
-      charenc: 0.0.2
-      crypt: 0.0.2
-      is-buffer: 1.1.6
 
   mdast-util-find-and-replace@3.0.1:
     dependencies:
@@ -6377,20 +6332,6 @@ snapshots:
   once@1.4.0:
     dependencies:
       wrappy: 1.0.2
-
-  openai@4.20.1(encoding@0.1.13):
-    dependencies:
-      '@types/node': 18.19.2
-      '@types/node-fetch': 2.6.9
-      abort-controller: 3.0.0
-      agentkeepalive: 4.5.0
-      digest-fetch: 1.3.0
-      form-data-encoder: 1.7.2
-      formdata-node: 4.4.1
-      node-fetch: 2.7.0(encoding@0.1.13)
-      web-streams-polyfill: 3.3.3
-    transitivePeerDependencies:
-      - encoding
 
   openai@4.62.1(encoding@0.1.13)(zod@3.22.4):
     dependencies:
@@ -7284,8 +7225,6 @@ snapshots:
     dependencies:
       glob-to-regexp: 0.4.1
       graceful-fs: 4.2.11
-
-  web-streams-polyfill@3.3.3: {}
 
   web-streams-polyfill@4.0.0-beta.3: {}
 
