@@ -16,13 +16,22 @@ export function constructMetadata({
   title = "Documon - AI-powered SaaS",
   description = "Documon is an open-source software to make chatting with your PDF files easy.",
   image = "/thumbnail.png",
-  icons = "/favicon.ico",
+  icons = [
+    {
+      rel: "icon",
+      url: "/favicon.ico", // for standard browsers
+    },
+    {
+      rel: "apple-touch-icon",
+      url: "/icon.png", // for Apple devices
+    },
+  ],
   noIndex = false, // allow search engine bots to crawl and index the website
 }: {
   title?: string;
   description?: string;
   image?: string;
-  icons?: string;
+  icons?: Metadata["icons"];
   noIndex?: boolean;
 } = {}): Metadata {
   return {
@@ -45,7 +54,7 @@ export function constructMetadata({
       creator: "@nabarvn",
     },
     icons,
-    metadataBase: new URL("https://documon.nabarun.ai"),
+    metadataBase: new URL("https://documon.nabarun.app"),
     ...(noIndex && {
       robots: {
         index: false,
