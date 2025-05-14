@@ -1,6 +1,7 @@
 {
   "name": "documon",
   "version": "0.1.0",
+  "author": "nabarvn",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -9,6 +10,16 @@
     "lint": "next lint",
     "postinstall": "prisma generate"
   },
+  "keywords": [
+    "ai",
+    "chatbot",
+    "nextjs",
+    "langchain",
+    "pinecone",
+    "trpc",
+    "uploadthing",
+    "pdfchat"
+  ],
   "dependencies": {
     "@hookform/resolvers": "^3.3.2",
     "@kinde-oss/kinde-auth-nextjs": "^1.8.25",
