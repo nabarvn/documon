@@ -64,7 +64,7 @@ pnpm dev
 - **Vector Database**: [Pinecone](https://docs.pinecone.io/docs/overview)
 - **Memory Builder**: [LangChain.js](https://js.langchain.com/docs/get_started/introduction)
 - **Rate Limiter**: [Upstash](https://docs.upstash.com/redis)
-- **MySQL Database**: [Aiven](https://aiven.io/docs/get-started)
+- **Postgres Database**: [Neon](https://neon.tech/docs/introduction/about)
 - **Authentication**: [Kinde](https://kinde.com/docs/developer-tools/nextjs-sdk)
 - **File Hosting**: [UploadThing](https://docs.uploadthing.com)
 - **API Typesafety**: [tRPC](https://trpc.io/docs)
