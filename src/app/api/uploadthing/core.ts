@@ -48,11 +48,10 @@ const onUploadComplete = async ({
     // get raw binary data of the file as ArrayBuffer
     const arrayBuffer = await response.arrayBuffer();
 
-    // convert ArrayBuffer to Buffer
-    const buffer = Buffer.from(arrayBuffer);
-
     // calculate the SHA-256 hash
-    const fileHash = createHash("sha256").update(buffer).digest("hex");
+    const fileHash = createHash("sha256")
+      .update(new Uint8Array(arrayBuffer))
+      .digest("hex");
 
     const isFileExist = await db.file.findFirst({
       where: {
