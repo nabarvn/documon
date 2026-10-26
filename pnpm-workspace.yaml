@@ -1,0 +1,10 @@
+peerDependencyRules:
+  allowedVersions:
+    "@pinecone-database/pinecone": "6"
+
+allowBuilds:
+  "@prisma/client": true
+  "@prisma/engines": true
+  prisma: true
+  canvas: false
+  msgpackr-extract: false
