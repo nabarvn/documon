@@ -4,6 +4,7 @@ export const PLANS = [
     slug: "free",
     quota: 10,
     pagesPerPdf: 5,
+    chunks: 6,
     price: {
       amount: 0,
       priceIds: {
@@ -17,6 +18,7 @@ export const PLANS = [
     slug: "pro",
     quota: 50,
     pagesPerPdf: 25,
+    chunks: 8,
     price: {
       amount: 14,
       priceIds: {
