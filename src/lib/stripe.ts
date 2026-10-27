@@ -36,22 +36,27 @@ export async function getUserSubscriptionPlan() {
     };
   }
 
-  const isSubscribed = Boolean(
-    dbUser.stripePriceId &&
-      dbUser.stripeCurrentPeriodEnd &&
-      // check if current subscription period ends at a future date
-      dbUser.stripeCurrentPeriodEnd.getTime() + 86_400_000 > Date.now() // 86400000 = 1 day
-  );
+  /*
+    Paid plan applies only while the current subscription period is in the future
+  */
+  const paidPlan =
+    dbUser.stripeCurrentPeriodEnd &&
+    dbUser.stripeCurrentPeriodEnd.getTime() > Date.now()
+      ? PLANS.find(
+          (plan) =>
+            plan.price.priceIds.test &&
+            plan.price.priceIds.test === dbUser.stripePriceId,
+        )
+      : undefined;
 
-  const plan = isSubscribed
-    ? PLANS.find((plan) => plan.price.priceIds.test === dbUser.stripePriceId)
-    : null;
+  const plan = paidPlan ?? PLANS[0];
+  const isSubscribed = Boolean(paidPlan);
 
   let isCanceled = false;
 
   if (isSubscribed && dbUser.stripeSubscriptionId) {
     const stripePlan = await stripe.subscriptions.retrieve(
-      dbUser.stripeSubscriptionId
+      dbUser.stripeSubscriptionId,
     );
 
     isCanceled = stripePlan.cancel_at_period_end;
