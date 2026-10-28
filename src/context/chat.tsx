@@ -47,7 +47,7 @@ export const ChatContextProvider = ({ fileId, children }: ChatContextProps) => {
 
       if (!response.ok) {
         // this triggers the `onError` method
-        throw new Error("Failed to send message");
+        throw new Error(await response.text());
       }
 
       // to be used in `onSuccess` method
@@ -101,7 +101,7 @@ export const ChatContextProvider = ({ fileId, children }: ChatContextProps) => {
             ...old,
             pages: newPages,
           };
-        }
+        },
       );
 
       // setting the loading state of AI response after optimistically updating user's latest message
@@ -158,7 +158,7 @@ export const ChatContextProvider = ({ fileId, children }: ChatContextProps) => {
 
             // check if the last message is an AI response
             let isAiResponseCreated = old.pages.some((page) =>
-              page.messages.some((message) => message.id === "ai-response")
+              page.messages.some((message) => message.id === "ai-response"),
             );
 
             let updatedPages = old.pages.map((page) => {
@@ -202,18 +202,25 @@ export const ChatContextProvider = ({ fileId, children }: ChatContextProps) => {
             });
 
             return { ...old, pages: updatedPages };
-          }
+          },
         );
       }
     },
 
-    onError: (_, __, context) => {
+    onError: (error, __, context) => {
+      toast({
+        title: "There was a problem sending this message",
+        description:
+          error instanceof Error ? error.message : "Please try again.",
+        variant: "destructive",
+      });
+
       // pull out the optimistically updated message from chat window and put it back into the textbox
       setMessage(backupMessage.current);
 
       utils.getFileMessages.setData(
         { fileId },
-        { messages: context?.previousMessages ?? [] }
+        { messages: context?.previousMessages ?? [] },
       );
     },
 
