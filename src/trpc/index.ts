@@ -2,11 +2,14 @@ import { z } from "zod";
 import { db } from "@/db";
 import { PLANS } from "@/config/stripe";
 import { TRPCError } from "@trpc/server";
+import { pinecone } from "@/lib/pinecone";
 import { absoluteUrl } from "@/lib/utils";
+import { getMonthlyFileCount } from "@/lib/quota";
+import { Errors } from "@pinecone-database/pinecone";
+import { INFINITE_QUERY_LIMIT } from "@/config/query";
+import { getUserSubscriptionPlan, stripe } from "@/lib/stripe";
 import { privateProcedure, publicProcedure, router } from "./trpc";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
-import { INFINITE_QUERY_LIMIT } from "@/config/infinite-query";
-import { getUserSubscriptionPlan, stripe } from "@/lib/stripe";
 
 export const appRouter = router({
   authCallback: publicProcedure.query(async () => {
@@ -127,7 +130,7 @@ export const appRouter = router({
         },
       });
 
-      if (!file) return { status: "PENDING" as const };
+      if (!file) throw new TRPCError({ code: "NOT_FOUND" });
 
       return { status: file.uploadStatus };
     }),
@@ -138,26 +141,13 @@ export const appRouter = router({
     if (!userId) throw new TRPCError({ code: "UNAUTHORIZED" });
 
     const subscriptionPlan = await getUserSubscriptionPlan();
-
-    const fileCount = await db.file.count({
-      where: {
-        userId: userId,
-      },
-    });
-
-    const proLimit = PLANS.find((plan) => plan.name === "Pro")!.quota;
-    const freeLimit = PLANS.find((plan) => plan.name === "Free")!.quota;
-
-    const isProQuotaExceeded = fileCount >= proLimit;
-    const isFreeQuotaExceeded = fileCount >= freeLimit;
+    const fileCount = await getMonthlyFileCount(userId);
 
     return {
-      fileCount: fileCount,
+      fileCount,
       planName: subscriptionPlan.name,
-      quotaLimit: subscriptionPlan.isSubscribed ? proLimit : freeLimit,
-      isQuotaExceeded: subscriptionPlan.isSubscribed
-        ? isProQuotaExceeded
-        : isFreeQuotaExceeded,
+      quotaLimit: subscriptionPlan.quota,
+      isQuotaExceeded: fileCount >= subscriptionPlan.quota,
     };
   }),
 
@@ -167,7 +157,7 @@ export const appRouter = router({
         fileId: z.string(),
         limit: z.enum(["10", "20", "all"]).nullish(),
         cursor: z.string().nullish(),
-      })
+      }),
     )
     .query(async ({ ctx, input }) => {
       const { userId } = ctx;
@@ -227,6 +217,12 @@ export const appRouter = router({
       });
 
       if (!file) throw new TRPCError({ code: "NOT_FOUND" });
+
+      try {
+        await pinecone.Index("documon").deleteNamespace(file.id);
+      } catch (error) {
+        if (!(error instanceof Errors.PineconeNotFoundError)) throw error;
+      }
 
       await db.file.delete({
         where: {
