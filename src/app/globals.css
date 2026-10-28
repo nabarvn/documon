@@ -49,3 +49,19 @@
     border-radius: 3px;
   }
 }
+
+@layer utilities {
+  @keyframes flashing {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+  }
+
+  .animate-flashing {
+    animation: flashing 1.2s infinite ease-in-out;
+  }
+}
