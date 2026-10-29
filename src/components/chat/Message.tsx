@@ -29,7 +29,7 @@ const Message = forwardRef<HTMLDivElement, MessageProps>(
               "order-2 bg-blue-600 rounded-sm": message.isUserMessage,
               "order-1 bg-zinc-800 rounded-sm": !message.isUserMessage,
               invisible: isNextMessageSameOrigin,
-            }
+            },
           )}
         >
           {message.isUserMessage ? (
@@ -40,15 +40,18 @@ const Message = forwardRef<HTMLDivElement, MessageProps>(
         </div>
 
         <div
-          className={cn("flex flex-col space-y-2 text-base max-w-max mx-2", {
-            "order-1 items-end": message.isUserMessage,
-            "order-2 items-start": !message.isUserMessage,
+          className={cn("mx-2 flex min-w-0 flex-col space-y-2 text-base", {
+            "order-1 max-w-max items-end": message.isUserMessage,
+            "order-2 flex-1 items-start": !message.isUserMessage,
           })}
         >
           <div
-            className={cn("rounded-lg inline-block px-4 py-2", {
-              "bg-blue-600 text-white": message.isUserMessage,
+            className={cn("rounded-lg px-4 py-2", {
+              "inline-block bg-blue-600 text-white": message.isUserMessage,
               "bg-gray-200 text-gray-900": !message.isUserMessage,
+              "block w-full min-w-0":
+                !message.isUserMessage && message.id !== "loading-message",
+              "inline-block": message.id === "loading-message",
               "rounded-br-none":
                 !isNextMessageSameOrigin && message.isUserMessage,
               "rounded-bl-none":
@@ -69,6 +72,7 @@ const Message = forwardRef<HTMLDivElement, MessageProps>(
                   ),
                 }}
                 className={cn("prose", {
+                  "max-w-none": !message.isUserMessage,
                   "text-zinc-50": message.isUserMessage,
                 })}
               >
@@ -92,7 +96,7 @@ const Message = forwardRef<HTMLDivElement, MessageProps>(
         </div>
       </div>
     );
-  }
+  },
 );
 Message.displayName = "Message";
 
