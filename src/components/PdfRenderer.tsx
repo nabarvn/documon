@@ -1,6 +1,5 @@
 "use client";
 
-import SimpleBar from "simplebar-react";
 import { useState, useContext } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 import { useToast } from "@/components/ui/UseToast";
@@ -18,7 +17,7 @@ import "react-pdf/dist/Page/AnnotationLayer.css";
 import "react-pdf/dist/Page/TextLayer.css";
 
 // worker code is needed to properly render the pdf file
-pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
 
 import { z } from "zod";
 import { cn } from "@/lib/utils";
@@ -42,16 +41,41 @@ interface PdfRendererProps {
 
 const PdfRenderer = ({ url }: PdfRendererProps) => {
   const { toast } = useToast();
-  const { width, ref } = useResizeDetector();
+
+  /*
+    Size comes from the empty box behind the scroller, not from the scroller
+    itself. The page is drawn to that size. Measuring the scroller would let
+    its scrollbar shrink the box, which draws the page again and cancels the
+    text layer. That cancellation repeats and floods the console.
+  */
+  const { height, width, ref } = useResizeDetector();
+
+  const [intrinsic, setIntrinsic] = useState<{
+    width: number;
+    height: number;
+    rotate: number;
+  }>();
 
   const { numPages, setNumPages } = useContext(DocumentContext);
 
   const [currPage, setCurrPage] = useState<number>(1);
   const [scale, setScale] = useState<number>(1);
   const [rotation, setRotation] = useState<number>(0);
-  const [renderedScale, setRenderedScale] = useState<number | null>(null);
 
-  const isLoading = renderedScale !== scale;
+  const quarterTurn = ((intrinsic?.rotate ?? 0) + rotation) % 180 !== 0;
+
+  const ratio = intrinsic
+    ? quarterTurn
+      ? intrinsic.height / intrinsic.width
+      : intrinsic.width / intrinsic.height
+    : undefined;
+
+  const pageWidth = width
+    ? Math.max(
+        Math.floor(width),
+        ratio && height ? Math.floor(height * ratio) : 0,
+      )
+    : undefined;
 
   const PageNumberValidator = z.object({
     page: z
@@ -80,7 +104,7 @@ const PdfRenderer = ({ url }: PdfRendererProps) => {
   };
 
   return (
-    <div className="w-full bg-white rounded-md shadow flex flex-col items-center">
+    <div className="flex h-full min-h-0 w-full min-w-0 flex-col rounded-md bg-white shadow">
       <div className="h-14 w-full border-b border-zinc-200 flex items-center justify-between px-2">
         <div className="flex items-center gap-1.5">
           <Button
@@ -100,7 +124,7 @@ const PdfRenderer = ({ url }: PdfRendererProps) => {
               {...register("page")}
               className={cn(
                 "w-12 h-8",
-                errors.page && "focus-visible:ring-red-500"
+                errors.page && "focus-visible:ring-red-500",
               )}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
@@ -121,7 +145,7 @@ const PdfRenderer = ({ url }: PdfRendererProps) => {
             disabled={numPages === undefined || currPage === numPages}
             onClick={() => {
               setCurrPage((prev) =>
-                prev + 1 > numPages! ? numPages! : prev + 1
+                prev + 1 > numPages! ? numPages! : prev + 1,
               );
               setValue("page", String(currPage + 1));
             }}
@@ -172,53 +196,53 @@ const PdfRenderer = ({ url }: PdfRendererProps) => {
         </div>
       </div>
 
-      <div className="flex-1 w-full max-h-screen">
-        <SimpleBar autoHide={false} className="max-h-[calc(100svh-10rem)]">
-          <div ref={ref}>
-            <Document
-              file={url}
-              className="max-h-full"
-              onLoadError={() => {
-                toast({
-                  title: "Error loading PDF",
-                  description: "Please try again later.",
-                  variant: "destructive",
-                });
-              }}
-              loading={
-                <div className="flex justify-center">
-                  <Loader2 className="h-6 w-6 animate-spin my-24" />
-                </div>
-              }
-              onLoadSuccess={({ numPages }) => setNumPages(numPages)}
-            >
-              {isLoading && renderedScale ? (
-                <Page
-                  key={"@" + renderedScale}
-                  width={width ? width : 1}
-                  pageNumber={currPage}
-                  scale={scale}
-                  rotate={rotation}
-                />
-              ) : null}
+      <div className="relative min-h-0 w-full flex-1">
+        <div ref={ref} className="absolute inset-0" />
 
+        <div className="absolute inset-0 overflow-x-auto overflow-y-auto">
+          <Document
+            file={url}
+            onLoadError={() => {
+              toast({
+                title: "Error loading PDF",
+                description: "Please try again later.",
+                variant: "destructive",
+              });
+            }}
+            loading={
+              <div className="flex justify-center">
+                <Loader2 className="h-6 w-6 animate-spin my-24" />
+              </div>
+            }
+            onLoadSuccess={({ numPages }) => setNumPages(numPages)}
+          >
+            {pageWidth ? (
               <Page
-                key={"@" + scale}
-                width={width ? width : 1}
+                width={pageWidth}
                 pageNumber={currPage}
                 scale={scale}
                 rotate={rotation}
-                className={cn(isLoading && "hidden")}
-                onRenderSuccess={() => setRenderedScale(scale)}
-                loading={
-                  <div className="flex justify-center">
-                    <Loader2 className="h-6 w-6 animate-spin my-24" />
-                  </div>
-                }
+                onLoadSuccess={(pdfPage) => {
+                  setIntrinsic((current) =>
+                    current?.width === pdfPage.originalWidth &&
+                    current.height === pdfPage.originalHeight &&
+                    current.rotate === pdfPage.rotate
+                      ? current
+                      : {
+                          width: pdfPage.originalWidth,
+                          height: pdfPage.originalHeight,
+                          rotate: pdfPage.rotate,
+                        },
+                  );
+                }}
               />
-            </Document>
-          </div>
-        </SimpleBar>
+            ) : (
+              <div className="flex justify-center">
+                <Loader2 className="h-6 w-6 animate-spin my-24" />
+              </div>
+            )}
+          </Document>
+        </div>
       </div>
     </div>
   );
