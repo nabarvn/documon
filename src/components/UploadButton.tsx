@@ -4,11 +4,11 @@ import { cn } from "@/lib/utils";
 import Dropzone from "react-dropzone";
 import { trpc } from "@/app/_trpc/client";
 import { useRouter } from "next/navigation";
+import { MAX_QUERY_COUNT } from "@/config/query";
 import { useToast } from "@/components/ui/UseToast";
 import { Button, Progress } from "@/components/ui";
 import { useUploadThing } from "@/lib/uploadthing";
 import { Cloud, File, Loader2 } from "lucide-react";
-import { MAX_QUERY_COUNT } from "@/config/max-query";
 import { Dispatch, SetStateAction, useState } from "react";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/Dialog";
 
@@ -31,7 +31,7 @@ const UploadDropzone = ({
   const [uploadProgress, setUploadProgress] = useState<number>(0);
 
   const { startUpload } = useUploadThing(
-    isSubscribed ? "proPlanUploader" : "freePlanUploader"
+    isSubscribed ? "proPlanUploader" : "freePlanUploader",
   );
 
   const { data } = trpc.getQuotaLimit.useQuery();
@@ -64,19 +64,14 @@ const UploadDropzone = ({
 
   return (
     <Dropzone
-      // we want users to drop only one file at a time
       multiple={false}
       noClick={true}
       noKeyboard={true}
-      disabled={isUploading}
+      disabled={isUploading || !data}
       accept={{
         "application/pdf": [".pdf"],
       }}
       onDrop={async (acceptedFile) => {
-        setIsUploading(true);
-
-        const progressInterval = startSimulatedProgress();
-
         if (data?.isQuotaExceeded) {
           return toast({
             title: "Quota Error",
@@ -84,6 +79,10 @@ const UploadDropzone = ({
             variant: "destructive",
           });
         }
+
+        setIsUploading(true);
+
+        const progressInterval = startSimulatedProgress();
 
         // handle file uploading
         const res = await startUpload(acceptedFile);
@@ -176,7 +175,7 @@ const UploadDropzone = ({
                 {
                   "cursor-not-allowed": isUploading,
                   "cursor-pointer hover:bg-gray-100": !isUploading,
-                }
+                },
               )}
             >
               <div className="flex flex-col items-center justify-center pt-5 pb-6">
