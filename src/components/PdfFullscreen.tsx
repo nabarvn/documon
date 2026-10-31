@@ -3,11 +3,14 @@
 import { useState } from "react";
 import SimpleBar from "simplebar-react";
 import { Button } from "@/components/ui";
-import { Document, Page } from "react-pdf";
 import { Expand, Loader2 } from "lucide-react";
+import { Document, Page, pdfjs } from "react-pdf";
 import { useToast } from "@/components/ui/UseToast";
 import { useResizeDetector } from "react-resize-detector";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/Dialog";
+
+// worker code is needed to properly render the pdf file
+pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
 
 interface PdfFullscreenProps {
   fileUrl: string;
@@ -38,14 +41,10 @@ const PdfFullscreen = ({ fileUrl }: PdfFullscreenProps) => {
       </DialogTrigger>
 
       <DialogContent className="max-w-[21rem] md:max-w-2xl xl:max-w-5xl w-full">
-        <SimpleBar
-          autoHide={false}
-          className="max-h-[calc(100svh-10rem)] max-w-[21rem] md:max-w-2xl xl:max-w-5xl mt-6"
-        >
-          <div ref={ref}>
+        <div ref={ref} className="mt-6 h-[calc(100svh-10rem)] w-full">
+          <SimpleBar autoHide={false} className="h-full w-full">
             <Document
               file={fileUrl}
-              className="max-h-full"
               loading={
                 <div className="flex justify-center">
                   <Loader2 className="h-6 w-6 animate-spin my-24" />
@@ -60,12 +59,14 @@ const PdfFullscreen = ({ fileUrl }: PdfFullscreenProps) => {
               }}
               onLoadSuccess={({ numPages }) => setNumPages(numPages)}
             >
-              {new Array(numPages).fill(0).map((_, i) => (
-                <Page key={i} width={width ? width : 1} pageNumber={i + 1} />
-              ))}
+              {width
+                ? Array.from({ length: numPages ?? 0 }, (_, i) => (
+                    <Page key={i} width={width} pageNumber={i + 1} />
+                  ))
+                : null}
             </Document>
-          </div>
-        </SimpleBar>
+          </SimpleBar>
+        </div>
       </DialogContent>
     </Dialog>
   );
