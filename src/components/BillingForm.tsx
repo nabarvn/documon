@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { format } from "date-fns";
 import { trpc } from "@/app/_trpc/client";
 import MaxWidthWrapper from "./MaxWidthWrapper";
@@ -23,11 +24,13 @@ interface BillingFormProps {
 
 const BillingForm = ({ subscriptionPlan }: BillingFormProps) => {
   const { toast } = useToast();
+  const [isRedirecting, setIsRedirecting] = useState(false);
 
   const { mutate: createStripeSession, isLoading } =
     trpc.createStripeSession.useMutation({
       onSuccess: ({ url }) => {
         if (url) {
+          setIsRedirecting(true);
           window.location.href = url;
         }
 
@@ -41,13 +44,15 @@ const BillingForm = ({ subscriptionPlan }: BillingFormProps) => {
       },
     });
 
+  const isBusy = isLoading || isRedirecting;
+
   return (
-    <MaxWidthWrapper className='max-w-5xl'>
+    <MaxWidthWrapper className="max-w-5xl">
       <form
-        className='mt-12'
+        className="mt-12"
         onSubmit={(e) => {
           e.preventDefault();
-          createStripeSession();
+          if (!isBusy) createStripeSession();
         }}
       >
         <Card>
@@ -55,15 +60,15 @@ const BillingForm = ({ subscriptionPlan }: BillingFormProps) => {
             <CardTitle>Subscription Plan</CardTitle>
 
             <CardDescription>
-              You are currently on the{" "}
+              You are currently on the&nbsp;
               <strong>{subscriptionPlan.name ?? "Free"}</strong> plan.
             </CardDescription>
           </CardHeader>
 
-          <CardFooter className='flex flex-col items-start space-y-2 md:flex-row md:justify-between md:space-x-0'>
-            <Button type='submit'>
-              {isLoading ? (
-                <Loader2 className='h-4 w-4 animate-spin mr-4' />
+          <CardFooter className="flex flex-col items-start space-y-2 md:flex-row md:justify-between md:space-x-0">
+            <Button type="submit" disabled={isBusy}>
+              {isBusy ? (
+                <Loader2 className="h-4 w-4 animate-spin mr-4" />
               ) : null}
 
               {subscriptionPlan.isSubscribed
@@ -72,7 +77,7 @@ const BillingForm = ({ subscriptionPlan }: BillingFormProps) => {
             </Button>
 
             {subscriptionPlan.isSubscribed ? (
-              <p className='rounded-full text-xs font-medium'>
+              <p className="rounded-full text-xs font-medium md:self-end">
                 {subscriptionPlan.isCanceled
                   ? "Your plan will be canceled on "
                   : "Your plan renews on "}
