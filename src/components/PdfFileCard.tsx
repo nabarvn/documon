@@ -1,11 +1,11 @@
 "use client";
 
-import Link from "next/link";
-import { useState } from "react";
 import { format } from "date-fns";
 import { File } from "@prisma/client";
 import { Button } from "@/components/ui";
+import { ActionLink } from "@/components";
 import { trpc } from "@/app/_trpc/client";
+import { useRouter } from "next/navigation";
 import { Loader2, MessageSquare, Plus, Trash } from "lucide-react";
 
 type CustomFile = Omit<File, "createdAt" | "updatedAt"> & {
@@ -18,6 +18,7 @@ interface PdfFileCardProps {
 }
 
 const PdfFileCard = ({ file }: PdfFileCardProps) => {
+  const router = useRouter();
   const utils = trpc.useContext();
 
   const { data } = trpc.getFileMessages.useQuery({
@@ -25,29 +26,21 @@ const PdfFileCard = ({ file }: PdfFileCardProps) => {
     limit: "all",
   });
 
-  const [currentlyDeletingFile, setCurrentlyDeletingFile] = useState<
-    string | null
-  >(null);
-
   const { mutate: deleteFile, isLoading: isDeleting } =
     trpc.deleteFile.useMutation({
       onSuccess: () => {
-        // force refresh
-        utils.getUserFiles.invalidate();
-      },
-
-      onMutate({ id }) {
-        setCurrentlyDeletingFile(id);
-      },
-
-      onSettled() {
-        setCurrentlyDeletingFile(null);
+        router.refresh();
+        return utils.getUserFiles.invalidate();
       },
     });
 
   return (
     <li className="col-span-1 divide-y divide-gray-200 rounded-lg bg-white shadow transition hover:shadow-lg">
-      <Link href={`/dashboard/${file.id}`} className="flex flex-col gap-2">
+      <ActionLink
+        href={`/dashboard/${file.id}`}
+        disabled={isDeleting}
+        className="flex flex-col gap-2"
+      >
         <div className="flex w-full items-center justify-between space-x-6 pt-6 px-6">
           <div className="h-10 w-10 flex-shrink-0 rounded-full bg-gradient-to-r from-cyan-500 to-blue-500" />
 
@@ -59,7 +52,7 @@ const PdfFileCard = ({ file }: PdfFileCardProps) => {
             </div>
           </div>
         </div>
-      </Link>
+      </ActionLink>
 
       <div className="grid grid-cols-3 place-items-center gap-5 text-sm text-zinc-500 px-6 py-2 mt-4">
         <div className="flex items-center gap-1">
@@ -84,7 +77,7 @@ const PdfFileCard = ({ file }: PdfFileCardProps) => {
           onClick={() => deleteFile({ id: file.id })}
           className="flex items-center text-destructive-foreground hover:text-destructive-foreground hover:bg-destructive gap-1 w-full"
         >
-          {currentlyDeletingFile === file.id ? (
+          {isDeleting ? (
             <Loader2 className="h-4 w-4 animate-spin" />
           ) : (
             <Trash className="h-4 w-4" />
