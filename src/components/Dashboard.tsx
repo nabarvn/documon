@@ -3,9 +3,14 @@
 import React from "react";
 import { Ghost } from "lucide-react";
 import { trpc } from "@/app/_trpc/client";
-import Skeleton from "react-loading-skeleton";
 import { getUserSubscriptionPlan } from "@/lib/stripe";
-import { UploadButton, PdfFileCard, MaxWidthWrapper } from "@/components";
+
+import {
+  UploadButton,
+  PdfFileCard,
+  PdfFileCardSkeleton,
+  MaxWidthWrapper,
+} from "@/components";
 
 interface DashboardProps {
   subscriptionPlan: Awaited<ReturnType<typeof getUserSubscriptionPlan>>;
@@ -31,7 +36,7 @@ const Dashboard = ({ subscriptionPlan }: DashboardProps) => {
             .sort(
               (a, b) =>
                 new Date(b.createdAt).getTime() -
-                new Date(a.createdAt).getTime()
+                new Date(a.createdAt).getTime(),
             )
             .map((file) => (
               <React.Fragment key={file.id}>
@@ -40,7 +45,7 @@ const Dashboard = ({ subscriptionPlan }: DashboardProps) => {
             ))}
         </ul>
       ) : isLoading ? (
-        <Skeleton height={100} className="h-32 mb-6" count={3} />
+        <PdfFileCardSkeleton />
       ) : (
         <div className="flex flex-col items-center gap-2 mt-16">
           <Ghost className="h-8 w-8 text-zinc-800 dark:text-zinc-800" />
