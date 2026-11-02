@@ -72,7 +72,7 @@ const ProfileMenu = async ({ name, email }: ProfileMenuProps) => {
         </DropdownMenuItem>
 
         <DropdownMenuItem asChild>
-          <Link target="_blank" href="https://git.new/prompt">
+          <Link target="_blank" rel="noopener" href="https://git.new/prompt">
             <Github className="h-4 w-4 mr-2" />
             Star on GitHub
           </Link>
