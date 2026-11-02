@@ -1,9 +1,9 @@
 import Link from "next/link";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import { MaxWidthWrapper } from "@/components";
 import { ArrowRight, PartyPopper } from "lucide-react";
 import { buttonVariants } from "@/components/ui/Button";
+import { ActionLink, MaxWidthWrapper } from "@/components";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 
 export default function Home() {
@@ -31,18 +31,18 @@ export default function Home() {
           upload your file and start asking questions right away.
         </p>
 
-        <Link
+        <ActionLink
           href={user ? "/dashboard" : "/sign-up"}
           className={cn(
             buttonVariants({
               size: "lg",
             }),
-            "group text-base mt-5"
+            "group text-base mt-5",
           )}
         >
           Get started
           <ArrowRight className="h-5 w-5 transition duration-200 group-hover:translate-x-0.5 ml-2" />
-        </Link>
+        </ActionLink>
       </MaxWidthWrapper>
 
       {/* value proposition section */}
@@ -118,7 +118,7 @@ export default function Home() {
               </span>
 
               <span className="text-zinc-700 dark:text-zinc-800 mt-2">
-                Either starting out with a free plan or choose our{" "}
+                Either starting out with a free plan or choose our&nbsp;
                 <Link
                   href="/pricing"
                   className="text-blue-700 underline underline-offset-2"
