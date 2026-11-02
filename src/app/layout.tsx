@@ -13,6 +13,7 @@ export const metadata = constructMetadata();
 
 export const viewport = {
   themeColor: "#FFF",
+  colorScheme: "only light",
 };
 
 export default function RootLayout({
@@ -21,11 +22,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="light hydrated">
+    <html lang="en" className="light hydrated overscroll-y-none">
       <body
         className={cn(
           "font-sans antialiased grainy-light dark:grainy-dark",
-          inter.className
+          inter.className,
         )}
         style={{ height: "100svh" }}
       >
