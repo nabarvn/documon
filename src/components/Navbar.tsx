@@ -1,7 +1,13 @@
 import Link from "next/link";
 import { getUserSubscriptionPlan } from "@/lib/stripe";
 import { buttonVariants } from "@/components/ui/Button";
-import { MaxWidthWrapper, MobileSlideover, ProfileMenu } from "@/components";
+
+import {
+  ActionLink,
+  MaxWidthWrapper,
+  MobileSlideover,
+  ProfileMenu,
+} from "@/components";
 
 import {
   LoginLink,
@@ -28,7 +34,7 @@ const Navbar = async () => {
           <div className="hidden items-center space-x-4 sm:flex">
             {!user ? (
               <>
-                <Link
+                <ActionLink
                   href="/pricing"
                   className={buttonVariants({
                     size: "sm",
@@ -36,28 +42,30 @@ const Navbar = async () => {
                   })}
                 >
                   Pricing
-                </Link>
+                </ActionLink>
 
-                <LoginLink
+                <ActionLink
+                  asChild
                   className={buttonVariants({
                     size: "sm",
                     variant: "ghost",
                   })}
                 >
-                  Sign in
-                </LoginLink>
+                  <LoginLink>Sign in</LoginLink>
+                </ActionLink>
 
-                <RegisterLink
+                <ActionLink
+                  asChild
                   className={buttonVariants({
                     size: "sm",
                   })}
                 >
-                  Try for free
-                </RegisterLink>
+                  <RegisterLink>Try for free</RegisterLink>
+                </ActionLink>
               </>
             ) : (
               <>
-                <Link
+                <ActionLink
                   href="/dashboard"
                   className={buttonVariants({
                     size: "sm",
@@ -65,7 +73,7 @@ const Navbar = async () => {
                   })}
                 >
                   Dashboard
-                </Link>
+                </ActionLink>
 
                 <ProfileMenu
                   name={
