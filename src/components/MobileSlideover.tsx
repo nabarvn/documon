@@ -145,6 +145,7 @@ const MobileSlideover = ({ isAuth, isSubscribed }: MobileSlideoverProps) => {
                   <li>
                     <Link
                       target="_blank"
+                      rel="noopener"
                       href="https://git.new/prompt"
                       onClick={() => setIsOpen(false)}
                       className="flex items-center w-full font-semibold"
