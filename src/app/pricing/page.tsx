@@ -1,7 +1,6 @@
-import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/Button";
-import { MaxWidthWrapper, UpgradeButton } from "@/components";
+import { ActionLink, MaxWidthWrapper, UpgradeButton } from "@/components";
 
 import {
   Tooltip,
@@ -194,7 +193,7 @@ const PricingPage = async () => {
 
                   <div className="p-5">
                     {plan === "Free" ? (
-                      <Link
+                      <ActionLink
                         href={user ? "/dashboard/billing" : "/sign-up"}
                         className={buttonVariants({
                           className: "w-full",
@@ -203,11 +202,11 @@ const PricingPage = async () => {
                       >
                         {user ? "Upgrade now" : "Sign up"}
                         <ArrowRight className="h-5 w-5 ml-1.5" />
-                      </Link>
+                      </ActionLink>
                     ) : user ? (
                       <UpgradeButton />
                     ) : (
-                      <Link
+                      <ActionLink
                         href="/sign-up"
                         className={buttonVariants({
                           className: "w-full",
@@ -215,7 +214,7 @@ const PricingPage = async () => {
                       >
                         {user ? "Upgrade now" : "Sign up"}
                         <ArrowRight className="h-5 w-5 ml-1.5" />
-                      </Link>
+                      </ActionLink>
                     )}
                   </div>
                 </div>
