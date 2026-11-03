@@ -2,7 +2,7 @@
 
 import { trpc } from "../_trpc/client";
 import { Loader2 } from "lucide-react";
-import { MAX_QUERY_COUNT } from "@/config/max-query";
+import { MAX_QUERY_COUNT } from "@/config/query";
 import { redirect, useRouter, useSearchParams } from "next/navigation";
 
 const AuthCallbackPage = () => {
