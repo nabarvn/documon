@@ -1,6 +1,6 @@
 # Documon
 
-A web application that harnesses the power of artificial intelligence to transform the way you interact with PDF documents. Documon enables you to seamlessly engage in a conversation with your PDFs, enjoy smart context summarization, and benefit from annotation features. This makes document exploration and information retrieval a breeze.
+Documon harnesses the power of artificial intelligence to transform the way you interact with PDF documents. Seamlessly chat with your PDFs and get smart context summaries of what they actually say. Exploring a document and finding what you need becomes a breeze.
 
 ## Screenshot
 
@@ -12,7 +12,7 @@ A web application that harnesses the power of artificial intelligence to transfo
 
 ## Running Locally
 
-This application requires Node.js v16.13+.
+This application requires Node.js v24+.
 
 ### Cloning the repository to the local machine:
 
@@ -45,6 +45,22 @@ pnpm prisma generate
 ```bash
 pnpm prisma db push
 ```
+
+### Forwarding Stripe webhooks:
+
+Install the [Stripe CLI](https://docs.stripe.com/stripe-cli) and log in:
+
+```bash
+stripe login
+```
+
+In a second terminal, forward events to the local app and leave that process running:
+
+```bash
+stripe listen --events checkout.session.completed,customer.subscription.updated,customer.subscription.deleted --forward-to localhost:3000/api/webhooks/stripe
+```
+
+The CLI prints a `whsec_...` secret. Put that value in `STRIPE_WEBHOOK_SECRET` in `.env` before starting the app.
 
 ### Running the application:
 
