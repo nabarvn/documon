@@ -1,3 +1,6 @@
+packages:
+  - "."
+
 peerDependencyRules:
   allowedVersions:
     "@pinecone-database/pinecone": "6"
